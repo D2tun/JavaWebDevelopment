@@ -1,5 +1,7 @@
 package by.epam.task1.ipo.service;
 
+import by.epam.task1.ipo.service.NaturalNumDiv;
+
 public class NaturalNumDiv {
 
 	private static NaturalNumDiv instance;
@@ -22,7 +24,8 @@ public class NaturalNumDiv {
 		int fracElder = (int) (frac * 10);
 		int numYounger = (int) num % 10;
 		
-		return m + " / " + n + " = " + divRes + "\nСтаршая цифра дробной части " 
-			   + fracElder + "\nМладшая цифра целой " + "части " + numYounger;
+		return (int) m + " / " + (int) n + " = " + divRes + "\nСтаршая цифра "
+				+ "дробной части " + fracElder + "\nМладшая цифра целой " + 
+				"части " + numYounger;
 	}
 }

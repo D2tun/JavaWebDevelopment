@@ -1,8 +1,10 @@
 package by.epam.task1.ipo.service;
 
+import by.epam.task1.ipo.service.DecimalNumTurner;
+
 public class DecimalNumTurner {
 	
-	public static DecimalNumTurner instance;
+	private static DecimalNumTurner instance;
 	
 	private DecimalNumTurner() {
 		
@@ -17,9 +19,8 @@ public class DecimalNumTurner {
 	
 	public String turn(double num) {
 		
-		double a = StrictMath.round(num);
-		double b = (num - a) * 1000;
+		double a = (num * 1000) % 1000 + StrictMath.floor(num) / 1000;
 		
-		return "Число" + num + "стало " + (int) b + "." + (int) a;	 
+		return "Число " + num + " стало " + a;	 
 	}
 }

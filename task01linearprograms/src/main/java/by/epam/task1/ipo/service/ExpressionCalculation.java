@@ -1,5 +1,7 @@
 package by.epam.task1.ipo.service;
 
+import by.epam.task1.ipo.service.ExpressionCalculation;
+
 public class ExpressionCalculation {
 
 	private static ExpressionCalculation instance;

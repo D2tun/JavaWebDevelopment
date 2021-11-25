@@ -1,6 +1,7 @@
 package by.epam.task1.ipo.service;
 
 import by.epam.task1.ipo.dao.DataGetter;
+import by.epam.task1.ipo.service.AreaCalculation;
 
 public class AreaCalculation {
 	

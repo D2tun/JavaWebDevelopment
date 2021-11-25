@@ -2,6 +2,7 @@ package by.epam.task1.ipo.controller;
 
 import by.epam.task1.ipo.controller.impl.Command;
 import by.epam.task1.ipo.service.DecimalNumTurner;
+
 import java.util.Scanner;
 
 public class DecimalNumTurn implements Command {

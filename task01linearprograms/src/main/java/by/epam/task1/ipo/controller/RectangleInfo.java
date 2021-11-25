@@ -1,7 +1,7 @@
 package by.epam.task1.ipo.controller;
 
 import by.epam.task1.ipo.controller.impl.Command;
-import by.epam.task1.ipo.service.*;
+import by.epam.task1.ipo.service.AreaCalculation;
 import java.util.Scanner;
 
 public class RectangleInfo implements Command {

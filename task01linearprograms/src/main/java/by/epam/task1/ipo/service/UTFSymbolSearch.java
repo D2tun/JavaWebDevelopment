@@ -1,5 +1,6 @@
 package by.epam.task1.ipo.service;
 
+import by.epam.task1.ipo.service.UTFSymbolSearch;
 
 public class UTFSymbolSearch {
 	
