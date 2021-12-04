@@ -40,7 +40,7 @@ public class FlatteryPhrase {
 		if (data.matches("[МД]")) {
 			logger.info("Данные получены, ответ отправлен");
 			return (data.charAt(0) == 'Д') ? "Мне нравятся девочки!"
-										   : "Мне нравятся мальчики!";
+						       : "Мне нравятся мальчики!";
 		} else {
 			return "Неверные данные";
 		}
