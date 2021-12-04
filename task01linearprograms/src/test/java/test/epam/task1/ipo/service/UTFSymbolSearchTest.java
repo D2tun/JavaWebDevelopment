@@ -11,19 +11,20 @@ public class UTFSymbolSearchTest {
 	
 	@DataProvider(name = "charFindData")
 	public Object[][] setData() {
-		return new Object[][] { {'k', "Символу k соответствует номер 107.\n "
+		return new Object[][] { {"k", "Символу k соответствует номер 107.\n "
 									  + "Следуюий символ l,\n предыдущий символ "
 									  + "j"},
-								{'7', "Символу 7 соответствует номер 55.\n "
+								{"7", "Символу 7 соответствует номер 55.\n "
 									  + "Следуюий символ 8,\n предыдущий символ "
 									  + "6"},
+								{"dbsb", "Неверные данные"}
 							  };	
 	}
 	
 	@Test(description = "Проверка нахождения символа utf8", 
 		  dataProvider = "charFindData")
-	public void searchSymbolTest(char ch, String expectedAnswer) {
-		Assert.assertEquals(utfss.searchSymbol(ch), expectedAnswer);
+	public void searchSymbolTest(String data, String expectedAnswer) {
+		Assert.assertEquals(utfss.searchSymbol(data), expectedAnswer);
 	}
 	
 }

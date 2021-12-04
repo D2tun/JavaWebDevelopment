@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import by.epam.task1.ipo.controller.impl.Command;
 import by.epam.task1.ipo.service.UTFSymbolSearch;
+import by.epam.task1.ipo.view.Viewer;
 
 /**
  * This class represents command to get byte-code of given symbol.
@@ -11,7 +12,9 @@ import by.epam.task1.ipo.service.UTFSymbolSearch;
  *
  */
 
-public class SymbolFindingUTF implements Command{
+public class SymbolFindingUTF implements Command {
+	
+	private Viewer viewer = Viewer.getInstance();
 
 	/**
 	 * This method executes given command.
@@ -22,16 +25,7 @@ public class SymbolFindingUTF implements Command{
 		Scanner sc = new Scanner(System.in);
 		UTFSymbolSearch utfss = UTFSymbolSearch.getInstance();
 		
-		System.out.println("Введите символ");
-		String data = sc.nextLine();
-		
-		char ch;
-		
-		if (data.matches("^.{1}$")) {
-			ch = data.charAt(0);
-			System.out.println(utfss.searchSymbol(ch));
-		} else {
-			System.out.println("Неверные данные");
-		}
+		viewer.showInfo("Введите символ");
+		System.out.println(utfss.searchSymbol(sc.nextLine()));
 	}
 }

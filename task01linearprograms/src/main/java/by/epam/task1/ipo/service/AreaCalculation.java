@@ -37,14 +37,26 @@ public class AreaCalculation {
 	 * This method gets data about rectangle of given <strong>length
 	 * </strong> and returns string-answer, which is ready to be
 	 * displayed.
-	 * @param length - rectangle's length.
+	 * @param data - rectangle's length.
 	 * @return string-answer
 	 */
-	public String getAnswer(double length) {
-		logger.info("Длина получена");
-		Rectangle rec = new Rectangle(length);
-		logger.info("Данные получены");
-		return "Прямоугольник длиной " + rec.getLength() + " мм, шириной "
-				+ rec.getWidth() + " мм, площадью " + rec.getArea() + " кв. мм.";	
+	public String getAnswer(String data) {
+		double length = 0;
+		
+		if (data.matches("^[0-9]+[.,]{0,1}[0-9]{0,}$")) {
+			data = data.replace(',', '.');
+			length = Double.valueOf(data);
+		}
+		
+		if (length > 0) {
+			logger.info("Длина получена");
+			Rectangle rec = new Rectangle(length);
+			logger.info("Ответ отправлен");
+			return "Прямоугольник длиной " + rec.getLength() + " мм, шириной "
+					+ rec.getWidth() + " мм, площадью " + rec.getArea() 
+					+ " кв. мм.";
+		} else {
+			return "Неверные данные";
+		}	
 	}
 }

@@ -39,19 +39,35 @@ public class NaturalNumDiv {
 	 * @param n - divider
 	 * @return string-answer
 	 */
-	public String divide(double m, double n) {
-		logger.info("Данные получены");
+	public String divide(String data) {
+		double m;
+		double n;
+		String[] parsedData = data.split(" ");
 		
-		double divRes = m / n;
-		int num = (int) divRes;
-		double frac = divRes - num;
-		int fracElder = (int) (frac * 10);
-		int numYounger = (int) num % 10;
+		if (parsedData.length != 2) {
+			return "Неверные данные";
+		}
 		
-		logger.info("Ответ отправлен");
-		
-		return (int) m + " / " + (int) n + " = " + divRes + "\nСтаршая цифра "
-				+ "дробной части " + fracElder + "\nМладшая цифра целой " + 
-				"части " + numYounger;
+		if (parsedData[0].matches("^[0-9]+$") 
+				&& parsedData[1].matches("^[0-9]+$")) {
+			logger.info("Данные получены");
+			
+			m = Integer.valueOf(parsedData[0]);
+			n = Integer.valueOf(parsedData[1]);
+			
+			double divRes = m / n;
+			int num = (int) divRes;
+			double frac = divRes - num;
+			int fracElder = (int) (frac * 10);
+			int numYounger = num % 10;
+			
+			logger.info("Ответ отправлен");
+			
+			return (int) m + " / " + (int) n + " = " + divRes + "\nСтаршая цифра "
+					+ "дробной части " + fracElder + "\nМладшая цифра целой " + 
+					"части " + numYounger;
+		} else {
+			return "Неверные данные";
+		}
 	}
 }

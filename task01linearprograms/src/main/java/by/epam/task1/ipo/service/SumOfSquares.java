@@ -33,10 +33,19 @@ public class SumOfSquares {
 	/**
 	 * This method calculates sum of square values of numbers in 
 	 * range from 1 to <strong>quantity</strong>.
-	 * @param quantity - quantity of numbers
+	 * @param data - quantity of numbers
 	 * @return string-answer
 	 */
-	public String getSum(int quantity) {
+	public String getSum(String data) {
+		int quantity = 0;
+		
+		if (data.matches("[0-9]+")) {
+			quantity = Integer.valueOf(data);
+			
+		} else {
+			return "Неверные данные";
+		}	
+		
 		logger.info("Данные получены");
 		
 		int result = 0;

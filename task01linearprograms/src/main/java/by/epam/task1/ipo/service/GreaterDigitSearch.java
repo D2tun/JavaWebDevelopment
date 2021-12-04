@@ -32,21 +32,24 @@ public class GreaterDigitSearch {
 	
 	/**
 	 * This method searches the largest digit.
-	 * @param digits - set of number's digits
+	 * @param data - entered number
 	 * @return string-answer
 	 */
-	public String getGreaterDigit(char[] digits) {
-		logger.info("Данные получены");
-		
+	public String getGreaterDigit(String data) {
 		char greaterDigit = 0;
-
-		for (int i = 0; i < digits.length; i++) {
-			if (Integer.valueOf(digits[i]) > greaterDigit) {
-				greaterDigit = digits[i];
-			}
-		}
 		
-		logger.info("Ответ отправлен");
-		return "Наибольшая цифра числа: " + greaterDigit; 
+		if (data.matches("^[0-9]+$") && !data.matches("^0{1}&")) {
+			char[] digits = data.toCharArray();
+			for (int i = 0; i < digits.length; i++) {
+				if (Integer.valueOf(digits[i]) > greaterDigit) {
+					greaterDigit = digits[i];
+				}
+			}
+			logger.info("Данные получены");
+			logger.info("Ответ отправлен");
+			return "Наибольшая цифра числа: " + greaterDigit; 
+		} else {
+			return "Неверные данные";
+		}
 	}
 }

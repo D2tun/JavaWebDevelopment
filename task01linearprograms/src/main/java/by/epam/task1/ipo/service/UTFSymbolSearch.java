@@ -34,15 +34,23 @@ public class UTFSymbolSearch {
 	/**
 	 * This method finds code of symbol (UTF-8) and two neighbor 
 	 * symbols.
-	 * @param ch - target symbol
+	 * @param data - target symbol
 	 * @return string-answer
 	 */
-	public String searchSymbol(char ch) {
-		logger.info("Данные получены");
+	public String searchSymbol(String data) {
+		char ch = ' ';
+		byte nextChar = 0;
+		byte prevChar = 0;
 		
-		byte nextChar = (byte) ((byte) ch + 1);
-		byte prevChar = (byte) ((byte) ch - 1);
-
+		if (data.matches("^.{1}$")) {
+			ch = data.charAt(0);
+			nextChar = (byte) ((byte) ch + 1);
+			prevChar = (byte) ((byte) ch - 1);
+			logger.info("Данные получены");
+		} else {
+			return "Неверные данные";
+		}
+		
 		logger.info("Ответ отправлен");
 		
 		return "Символу " + ch + " соответствует номер " + (byte) ch 

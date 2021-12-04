@@ -33,12 +33,16 @@ public class FlatteryPhrase {
 	
 	/**
 	 * This method returns phrase cording to gender sign (Д/М).
-	 * @param ch - gender sign (Д/М)
+	 * @param data - gender sign (Д/М)
 	 * @return string-answer
 	 */
-	public String getPhrase (char ch) {
-		logger.info("Данные получены, ответ отправлен");
-		return (ch == 'Д') ? "Мне нравятся девочки!": "Мне нравятся мальчики!";
+	public String getPhrase (String data) {
+		if (data.matches("[МД]")) {
+			logger.info("Данные получены, ответ отправлен");
+			return (data.charAt(0) == 'Д') ? "Мне нравятся девочки!"
+										   : "Мне нравятся мальчики!";
+		} else {
+			return "Неверные данные";
+		}
 	}
-	
 }

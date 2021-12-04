@@ -33,33 +33,94 @@ public class ExpressionCalculation {
 	/**
 	 * This method calculates expression of type 
 	 * (a / c) * (b / d) - ((a * b - c) / (c * d)).
-	 * @param a - expression's parameter
-	 * @param b - expression's parameter
-	 * @param c - expression's parameter
-	 * @param d - expression's parameter
+	 * @param data - consequence of expression's parameters, divided by space
 	 * @return string-answer
 	 */
-	public String calculateFirstExpression(double a, double b, double c, 
-										   double d) {
-		logger.info("Данные получены, ответ отправлен");
-		return a + " / " + c + " * " + b + " / " +  d + " - ((" + a + " * " 
-			   + b + " - " + c + ") / (" + c + " * " + d + ")) = " + (a / c 
-			   * b / d - ((a * b - c) / (c * d)));
+	public String calculateFirstExpression(String data) {
+		double a = Double.NaN;
+		double b = Double.NaN; 
+		double c = Double.NaN; 
+		double d = Double.NaN;
+		
+		String[] parsedData = data.split(" ");
+		
+		if (parsedData.length != 4) {
+			return "Неверные данные";
+		}
+		
+		logger.info("Данные получены");
+		
+		if (parsedData[0].matches("^-{0,1}[0-9]+[.,]{0,1}[0-9]{0,}$")
+				&& parsedData[1].matches("^-{0,1}[0-9]+[.,]{0,1}[0-9]{0,}$")
+				&& parsedData[3].matches("^-{0,1}[0-9]+[.,]{0,1}[0-9]{0,}$")
+				&& parsedData[2].matches("^-{0,1}[0-9]+[.,]{0,1}[0-9]{0,}$")) {
+			
+			parsedData[0] = parsedData[0].replace(',', '.');
+			parsedData[1] = parsedData[1].replace(',', '.');
+			parsedData[2] = parsedData[2].replace(',', '.');
+			parsedData[3] = parsedData[3].replace(',', '.');
+			
+			a = Double.valueOf(parsedData[0]);
+			b = Double.valueOf(parsedData[1]);
+			c = Double.valueOf(parsedData[2]);
+			d = Double.valueOf(parsedData[3]);
+		}
+		
+		if (Double.isNaN(a) || Double.isNaN(b) || Double.isNaN(c) 
+				|| Double.isNaN(d)) {
+			return "Неверные данные";
+		} else {
+			logger.info("Ответ отправлен");
+			return a + " / " + c + " * " + b + " / " +  d + " - ((" + a + " * " 
+				   + b + " - " + c + ") / (" + c + " * " + d + ")) = " + (a / c 
+				   * b / d - ((a * b - c) / (c * d)));
+		}
 	}
 	
 	/**
 	 * This method calculates expression of type 
 	 * |a * x * x + b * x + c|.
-	 * @param a - expression's parameter
-	 * @param b - expression's parameter
-	 * @param c - expression's parameter
-	 * @param x - expression's parameter
+	 * @param data - consequence of expression's parameters, divided by space
 	 * @return string-answer
 	 */
-	public String calculateSquareExpressionAbs(double a, double b, double c,
-			                                double x) {
-		logger.info("Данные получены, ответ отправлен");
-		return "|" + a + " * " + x + " * " + x + " + " + b + " * " + x + " + "
-				+ c + "| = " + StrictMath.abs(a * x * x + b * x + c);
+	public String calculateSquareExpressionAbs(String data) {
+		double a = Double.NaN;
+		double b = Double.NaN; 
+		double c = Double.NaN; 
+		double x = Double.NaN;
+		
+		String[] parsedData = data.split(" ");
+		
+		if (parsedData.length != 4) {
+			return "Неверные данные";
+		}
+		
+		logger.info("Данные получены");
+		
+		if (parsedData[0].matches("^-{0,1}[0-9]+[.,]{0,1}[0-9]{0,}$")
+				&& parsedData[1].matches("^-{0,1}[0-9]+[.,]{0,1}[0-9]{0,}$")
+				&& parsedData[3].matches("^-{0,1}[0-9]+[.,]{0,1}[0-9]{0,}$")
+				&& parsedData[2].matches("^-{0,1}[0-9]+[.,]{0,1}[0-9]{0,}$")) {
+			
+			parsedData[0] = parsedData[0].replace(',', '.');
+			parsedData[1] = parsedData[1].replace(',', '.');
+			parsedData[2] = parsedData[2].replace(',', '.');
+			parsedData[3] = parsedData[3].replace(',', '.');
+			
+			a = Double.valueOf(parsedData[0]);
+			b = Double.valueOf(parsedData[1]);
+			c = Double.valueOf(parsedData[2]);
+			x = Double.valueOf(parsedData[3]);
+		}
+		
+		if (Double.isNaN(a) || Double.isNaN(b) || Double.isNaN(c) 
+				|| Double.isNaN(x)) {
+			return "Неверные данные";
+		} else {
+			logger.info("Ответ отправлен");
+			return "|" + a + " * " + x + " * " + x + " + " + b + " * " + x 
+					+ " + " + c + "| = " + StrictMath.abs(a * x * x + b * x 
+					+ c);	
+		}
 	}
 }

@@ -2,6 +2,7 @@ package by.epam.task1.ipo.controller;
 
 import by.epam.task1.ipo.controller.impl.Command;
 import by.epam.task1.ipo.service.GreaterDigitSearch;
+import by.epam.task1.ipo.view.Viewer;
 
 import java.util.Scanner;
 
@@ -13,6 +14,8 @@ import java.util.Scanner;
 
 public class GreaterDigitOfNumber implements Command {
 
+	private Viewer viewer = Viewer.getInstance();
+	
 	/**
 	 * This method executes given command.
 	 */
@@ -22,14 +25,7 @@ public class GreaterDigitOfNumber implements Command {
 		Scanner sc = new Scanner(System.in);
 		GreaterDigitSearch gds = GreaterDigitSearch.getInstance();
 		
-		System.out.println("Введите натуральное число");
-		String data = sc.nextLine();
-		if (data.matches("[0-9]+") & !data.matches("0{1}")) {
-			System.out.println(gds.getGreaterDigit(data.toCharArray()));
-		} else {
-			System.out.println("Неверные данные");
-		}
-		
+		viewer.showInfo("Введите натуральное число");
+		viewer.showInfo(gds.getGreaterDigit(sc.nextLine()));	
 	}
-
 }

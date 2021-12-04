@@ -2,6 +2,7 @@ package by.epam.task1.ipo.controller;
 
 import by.epam.task1.ipo.controller.impl.Command;
 import by.epam.task1.ipo.service.SumOfSquares;
+import by.epam.task1.ipo.view.Viewer;
 
 import java.util.Scanner;
 
@@ -13,6 +14,8 @@ import java.util.Scanner;
  */
 
 public class SumOfHundredSquares implements Command {
+	
+	private Viewer viewer = Viewer.getInstance();
 
 	/**
 	 * This method executes given command.
@@ -22,15 +25,8 @@ public class SumOfHundredSquares implements Command {
 	public void execute() {
 		SumOfSquares sos = SumOfSquares.getInstance();
 		Scanner sc = new Scanner(System.in);
-		int quantity = 0;
 		
-		System.out.println("Введите количество чисел");
-		String data = sc.nextLine();
-		if (data.matches("[0-9]+")) {
-			quantity = Integer.valueOf(data);
-			System.out.println(sos.getSum(quantity));
-		} else {
-			System.out.println("Неверные данные");
-		}		
+		viewer.showInfo("Введите количество чисел");
+		viewer.showInfo(sos.getSum(sc.nextLine()));	
 	}
 }

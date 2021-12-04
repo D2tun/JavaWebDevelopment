@@ -34,10 +34,21 @@ public class DecimalNumTurner {
 	/**
 	 * This method turns <strong>number</strong> of format nnn.ddd to
 	 * ddd.nnn.
-	 * @param num - number of format nnn.ddd
+	 * @param data - number of format nnn.ddd
 	 * @return string-answer
 	 */
-	public String turn(double num) {
+	public String turn(String data) {
+		double num = Double.NaN;
+		
+		if (data.matches("^[0-9]{3}[.,]{1}[0-9]{3}$")) {
+			data = data.replace(',', '.');
+			num = Double.valueOf(data);
+		}
+		
+		if (Double.isNaN(num)) {
+			return "Неверные данные";
+		}
+		
 		logger.info("Даные получены");
 		
 		double a = (num * 1000) % 1000 + StrictMath.floor(num) / 1000;

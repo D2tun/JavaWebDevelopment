@@ -33,10 +33,18 @@ public class NumberOfEvenDigits {
 
 	/**
 	 * This method count's even digits in digit's set.
-	 * @param digits - set of digits
+	 * @param data - entered number
 	 * @return string-answer
 	 */
-	public String getQuantity(char[] digits) {
+	public String getQuantity(String data) {
+		char[] digits;
+		
+		if (data.matches("[0-9]+") && !data.matches("0{1}")) {
+			digits = data.toCharArray();
+		} else {
+			return "Неверные данные";
+		}
+		
 		logger.info("Данные получены");
 		
 		String answer = "Чётные цифры числа: ";

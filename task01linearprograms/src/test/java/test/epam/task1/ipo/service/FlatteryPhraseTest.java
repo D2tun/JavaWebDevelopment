@@ -13,15 +13,16 @@ public class FlatteryPhraseTest {
 	@DataProvider(name = "flatteryData")
 	public Object[][] setData(){
 		return new Object[][] {
-								{'М', "Мне нравятся мальчики!"},
-								{'Д', "Мне нравятся девочки!"}
+								{"М", "Мне нравятся мальчики!"},
+								{"Д", "Мне нравятся девочки!"},
+								{"agbasb", "Неверные данные"},
 							  };
 	}
 	
 	@Test(description = "Проверка программы-льстеца", 
 		  dataProvider = "flatteryData")
-	public void getPhraseTest(char ch, String expectedAnswer) {
-		Assert.assertEquals(fp.getPhrase(ch), expectedAnswer);
+	public void getPhraseTest(String genderSign, String expectedAnswer) {
+		Assert.assertEquals(fp.getPhrase(genderSign), expectedAnswer);
 	}
 	
 }

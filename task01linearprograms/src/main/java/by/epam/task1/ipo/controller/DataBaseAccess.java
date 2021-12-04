@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import by.epam.task1.ipo.controller.impl.Command;
 import by.epam.task1.ipo.service.ModuleAccessCheck;
+import by.epam.task1.ipo.view.Viewer;
 
 /**
  * This class represents command to get database access. 
@@ -12,6 +13,8 @@ import by.epam.task1.ipo.service.ModuleAccessCheck;
  */
 
 public class DataBaseAccess implements Command {
+	
+	private Viewer viewer = Viewer.getInstance();
 
 	/**
 	 * This method executes given command.
@@ -21,8 +24,7 @@ public class DataBaseAccess implements Command {
 		Scanner sc = new Scanner(System.in);
 		ModuleAccessCheck mac = ModuleAccessCheck.getInstance();
 		
-		System.out.println("Введите пароль");
-		String data = sc.nextLine();
-		System.out.println(mac.checkAccess(data));	
+		viewer.showInfo("Введите пароль");
+		viewer.showInfo(mac.checkAccess(sc.nextLine()));	
 	}
 }

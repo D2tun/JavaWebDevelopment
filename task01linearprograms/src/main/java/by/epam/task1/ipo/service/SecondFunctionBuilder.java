@@ -39,20 +39,54 @@ public class SecondFunctionBuilder {
 	 * @param h - calculation step
 	 * @return string-answer
 	 */
-	public String getCoordinates(double a, double b, double h) {
+	public String getCoordinates(String data) {
+		double lowBorder = Double.NaN;
+		double highBorder = Double.NaN;
+		double step = Double.NaN;
+		String[] parsedData = data.split(" ");
+		
+		if (parsedData.length != 3) {
+			return "Неверные данные";
+		}
+
+		if (parsedData[0].matches("^-{0,1}[0-9]+[.,]{0,1}[0-9]{0,}$") 
+				&& parsedData[1].matches("^-{0,1}[0-9]+[.,]{0,1}[0-9]{0,}$")
+				&& parsedData[2].matches("^{0,1}[0-9]+[.,]{0,1}[0-9]{0,}$")) {
+			
+			parsedData[0] = parsedData[0].replace(',', '.');
+			parsedData[1] = parsedData[1].replace(',', '.');
+			parsedData[2] = parsedData[2].replace(',', '.');
+			
+			lowBorder = Double.parseDouble(parsedData[0]);
+			highBorder = Double.parseDouble(parsedData[1]);
+			step = Double.parseDouble(parsedData[2]);
+		}
+		
+		if (lowBorder > highBorder) {
+			double temp = lowBorder;
+			lowBorder = highBorder;
+			highBorder = temp;
+		}
+		
+		if ((lowBorder == Double.NaN) || (highBorder == Double.NaN) 
+				|| (step == Double.NaN) || (step <= 0)) {
+			return "Неверные данные";
+		}	
+		
 		logger.info("Данные получены");
 		
 		String answer = "x    y\n";
 		double fx = 0;
 		
 		do {
-			fx = a - StrictMath.sin(a);
-			answer += a + "    " + fx + "\n";
-			a += h;
-		} while (a <= b);
+			fx = lowBorder - StrictMath.sin(lowBorder);
+			answer += lowBorder + "    " + fx + "\n";
+			lowBorder += step;
+		} while (lowBorder <= highBorder);
 		
 		logger.info("Данные отправлены");
 		
 		return answer;
 	}
+
 }

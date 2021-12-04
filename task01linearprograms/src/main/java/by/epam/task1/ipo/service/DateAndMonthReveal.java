@@ -35,11 +35,19 @@ public class DateAndMonthReveal {
 	 * This method searches for date and month in range of one year
 	 * by number of day in year. Method returns string-answer, ready
 	 * to be displayed (for example "1 января").
-	 * @param dayInYear - number of day in year (1 - 365)
+	 * @param data - number of day in year (1 - 365)
 	 * @return string-answer
 	 */
-	public String getDateAndMonth(int dayInYear) {
+	public String getDateAndMonth(String data) {
+		
+		int dayInYear = 0;
+		
+		if (data.matches("[0-9]{1,3}")) {
+			dayInYear = Integer.parseInt(data);
+		} 
+		
 		logger.info("Данные получены");
+		
 		if ((dayInYear >= 1) & (dayInYear <= 31)) {
 			return dayInYear + " января";
 		} else if ((dayInYear >= 32) & (dayInYear <= 59)) {

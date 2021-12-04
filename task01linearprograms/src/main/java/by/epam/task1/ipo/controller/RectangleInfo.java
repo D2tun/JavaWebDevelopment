@@ -2,6 +2,8 @@ package by.epam.task1.ipo.controller;
 
 import by.epam.task1.ipo.controller.impl.Command;
 import by.epam.task1.ipo.service.AreaCalculation;
+import by.epam.task1.ipo.view.Viewer;
+
 import java.util.Scanner;
 
 /**
@@ -12,6 +14,8 @@ import java.util.Scanner;
  */
 
 public class RectangleInfo implements Command {
+	
+	private Viewer viewer = Viewer.getInstance();
 
 	/**
 	 * This method executes given command.
@@ -22,17 +26,7 @@ public class RectangleInfo implements Command {
 		AreaCalculation ac = AreaCalculation.getInstance();
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("Введите длину прямоугольника  (мм)");
-		double length = 0;
-		String data = sc.nextLine();
-		if (data.matches("^[0-9]+[.,]{0,1}[0-9]{0,}$")) {
-			data = data.replace(',', '.');
-			length = Double.valueOf(data);
-		}
-		if (length > 0) {
-			System.out.println(ac.getAnswer(length));
-		} else {
-			System.out.println("Неверные данные.");
-		}
+		viewer.showInfo("Введите длину прямоугольника  (мм)");
+		viewer.showInfo(ac.getAnswer(sc.nextLine()));
 	}
 }

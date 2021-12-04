@@ -33,7 +33,7 @@ public class ModuleAccessCheck {
 	/**
 	 * This method checks access to database modules cording to 
 	 * provided password.
-	 * @param password - provided password
+	 * @param password - entered password
 	 * @return string-answer
 	 */
 	public String checkAccess(String password) {

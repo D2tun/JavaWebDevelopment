@@ -12,18 +12,20 @@ public class TriangleCheckTest {
 	
 	@DataProvider(name = "triangleData")
 	public Object[][] setData() {
-		return new Object[][] { {2, 2, 2, "Это равносторонний треугольник"},
-								{1.5, 1.8, 9.9, "Это не равносторонний "
+		return new Object[][] { 
+								{"2 2 2", "Это равносторонний треугольник"},
+								{"1.5 1,8 9.9", "Это не равносторонний "
 												+ "треугольник"},
+								{"2 2 ", "Неверные данные"},
+								{"2 2 2 2", "Неверные данные"},
+								{"-2 2 2", "Неверные данные"},
+								{"цыиика", "Неверные данные"},
 							  };	
 	}
 	
 	@Test(description = "Проверка обнаружения равностороннего треугольника",
 		  dataProvider = "triangleData")
-	public void checkEquilateralityTest(double side1, double side2, 
-										double side3, String expectedAnswer) {
-		Assert.assertEquals(tc.checkEquilaterality(side1, side2, side3), 
-							expectedAnswer);
+	public void checkEquilateralityTest(String data, String expectedAnswer) {
+		Assert.assertEquals(tc.checkEquilaterality(data), expectedAnswer);
 	}
-	
 }

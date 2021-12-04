@@ -11,18 +11,17 @@ public class GreaterDigitSearchTest {
 	
 	@DataProvider(name = "digitsData")
 	public Object[][] setData() {
-		char[] digits = {1, 2, 3};
-		char[] digits2 = {1, 2, 3, 9 ,7, 6, 3, 7, 8};
 		return new Object[][] {
-								{digits, "Наибольшая цифра числа: 3"},
-								{digits2, "Наибольшая цифра числа: 9"}
+								{"123", "Наибольшая цифра числа: 3"},
+								{"9146", "Наибольшая цифра числа: 9"},
+								{"91.46", "Неверные данные"},
+								{"иыи47", "Неверные данные"},
 							  };
 	}
 	
 	@Test(description = "Проверка поиска наибольшей цифры в числе",
 		  dataProvider = "digitsData")
-	public void getGreaterDigit(char[] ch, String expectedAnswer) {
-		Assert.assertEquals(gds.getGreaterDigit(ch), expectedAnswer);
+	public void getGreaterDigit(String num, String expectedAnswer) {
+		Assert.assertEquals(gds.getGreaterDigit(num), expectedAnswer);
 	}
-
 }
