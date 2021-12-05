@@ -50,6 +50,7 @@ public class CommandManager {
 						  new GreaterDigitOfNumber());
 		this.commands.put("чётные цифры натурального числа", 
 						  new EvenDigitsOfNumberSearch());
+		this.commands.put("поменять переменные местами", new VariableSwap());
 	}
 	
 	/**
