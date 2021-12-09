@@ -1,9 +1,11 @@
-package by.epam.task1.ipo.controller;
+package by.ipo.task1.controller;
 
-import by.epam.task1.ipo.controller.impl.Command;
-import by.epam.task1.ipo.service.NaturalNumDiv;
-import by.epam.task1.ipo.view.Viewer;
+import by.ipo.task1.controller.impl.Command;
+import by.ipo.task1.service.NaturalNumDiv;
+import by.ipo.task1.view.ru.MessageViewer;
+import by.ipo.task1.view.ru.NatNumDivAnswer;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -15,18 +17,30 @@ import java.util.Scanner;
  */
 public class NatNumDiv implements Command {
 
-	private Viewer viewer = Viewer.getInstance();
+	private MessageViewer viewer = MessageViewer.getInstance();
+	private NatNumDivAnswer nnda = NatNumDivAnswer.getInstance();
 	
 	/**
 	 * This method executes given command.
 	 */
-	
 	@Override
 	public void execute() {
 		Scanner sc = new Scanner(System.in);
 		NaturalNumDiv nnd = NaturalNumDiv.getInstance();
 		
 		viewer.showInfo("Введите число M и N через пробел");
-		viewer.showInfo(nnd.divide(sc.nextLine()));
+		
+		String[] parsedData = sc.nextLine().split(" ");
+		
+		try {
+			if (parsedData.length != 2) {
+				throw new IOException();
+			}
+			int m = Integer.parseInt(parsedData[0]);
+			int n = Integer.parseInt(parsedData[1]);
+			nnda.showInfo(nnd.divide(m, n));
+		} catch (IOException | NumberFormatException e) {
+			viewer.showInfo("Неверные данные");
+		}
 	}
 }

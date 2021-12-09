@@ -1,9 +1,11 @@
-package by.epam.task1.ipo.controller;
+package by.ipo.task1.controller;
 
-import by.epam.task1.ipo.controller.impl.Command;
-import by.epam.task1.ipo.service.TriangleCheck;
-import by.epam.task1.ipo.view.Viewer;
+import by.ipo.task1.controller.impl.Command;
+import by.ipo.task1.service.TriangleCheck;
+import by.ipo.task1.view.ru.MessageViewer;
+import by.ipo.task1.view.ru.TriangleEquilateralityCheckAnswer;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -11,15 +13,15 @@ import java.util.Scanner;
  * @author Pavel Isidovich
  *
  */
-
 public class TriangleEquilateralityCheck implements Command {
 
-	private Viewer viewer = Viewer.getInstance();
+	private MessageViewer viewer = MessageViewer.getInstance();
+	private TriangleEquilateralityCheckAnswer teca = 
+				TriangleEquilateralityCheckAnswer.getInstance();
 	
 	/**
 	 * This method executes given command.
 	 */
-	
 	@Override
 	public void execute() {
 		Scanner sc = new Scanner(System.in);
@@ -27,6 +29,21 @@ public class TriangleEquilateralityCheck implements Command {
 		
 		viewer.showInfo("Введите длину первой, второй и третьей стороны "
 						+ "треугольника (мм) через пробел");
-		viewer.showInfo(tc.checkEquilaterality(sc.nextLine()));
+		
+		String[] parsedData = sc.nextLine().split(" ");
+		
+		try {
+			if (parsedData.length != 3) {
+				throw new IOException();
+			}
+			
+			double side1 = Double.parseDouble(parsedData[0].replace(",", "."));
+			double side2 = Double.parseDouble(parsedData[1].replace(",", "."));
+			double side3 = Double.parseDouble(parsedData[2].replace(",", "."));
+			
+			teca.showInfo(tc.checkEquilaterality(side1, side2, side3));
+		} catch (IOException | NumberFormatException e) {
+			viewer.showInfo("Неверные данные");
+		}
 	}
 }

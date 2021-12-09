@@ -1,9 +1,11 @@
-package by.epam.task1.ipo.controller;
+package by.ipo.task1.controller;
 
-import by.epam.task1.ipo.controller.impl.Command;
-import by.epam.task1.ipo.service.DecimalNumTurner;
-import by.epam.task1.ipo.view.Viewer;
+import by.ipo.task1.controller.impl.Command;
+import by.ipo.task1.service.DecimalNumTurner;
+import by.ipo.task1.view.ru.MessageViewer;
+import by.ipo.task1.view.ru.DecimalNumTurnAnswer;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -15,18 +17,24 @@ import java.util.Scanner;
 
 public class DecimalNumTurn implements Command {
 	
-	private Viewer viewer = Viewer.getInstance();
+	private MessageViewer viewer = MessageViewer.getInstance();
+	private DecimalNumTurnAnswer dnta = DecimalNumTurnAnswer.getInstance();
 	
 	/**
 	 * This method executes given command.
 	 */
-
 	@Override
 	public void execute() {
 		DecimalNumTurner dnt = DecimalNumTurner.getInstance();
 		Scanner sc = new Scanner(System.in);
 		
 		viewer.showInfo("Введите числов вида nnn.ddd");
-		viewer.showInfo(dnt.turn(sc.nextLine()));
+		
+		try {
+			double num = Double.parseDouble(sc.nextLine().replace(",", "."));
+			dnta.showInfo(dnt.turn(num));
+		} catch (NumberFormatException e) {
+			viewer.showInfo("Неверные данные");
+		}
 	}
 }

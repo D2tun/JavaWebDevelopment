@@ -1,12 +1,11 @@
-
-package by.epam.task1.ipo.controller;
+package by.ipo.task1.controller;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 
-import by.epam.task1.ipo.controller.impl.Command;
+import by.ipo.task1.controller.impl.Command;
 
 /**
  * This class calls another command class, depended on user's request.
@@ -44,7 +43,7 @@ public class CommandManager {
 		this.commands.put("вычислить точки прямой", 
 						  new MiddleCoordinateLineBuilder());
 		this.commands.put("сумма квадратов первых n чисел", 
-						  new SumOfHundredSquares());
+						  new SumSquares());
 		this.commands.put("вычисление F(x) = x - sin(x)", new FunctionFX());
 		this.commands.put("наибольшая цифра натурального числа", 
 						  new GreaterDigitOfNumber());

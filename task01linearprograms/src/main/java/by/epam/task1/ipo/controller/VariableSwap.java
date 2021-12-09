@@ -1,48 +1,1 @@
-package by.epam.task1.ipo.controller;
-
-import by.epam.task1.ipo.controller.impl.Command;
-import by.epam.task1.ipo.service.SwapVariables;
-import by.epam.task1.ipo.service.TriangleCheck;
-import by.epam.task1.ipo.view.Viewer;
-
-import java.util.Scanner;
-
-/**
- * This class represents command to swap variables.
- * @author Pavel Isidovich
- *
- */
-public class VariableSwap implements Command {
-	
-	private Viewer viewer = Viewer.getInstance();
-	
-	/**
-	 * This method executes given command.
-	 */
-	
-	@Override
-	public void execute() {
-		Scanner sc = new Scanner(System.in);
-		SwapVariables sw = SwapVariables.getInstance();
-		
-		viewer.showInfo("Введите способ (1 - дополнительная переменная, 2 -  "
-						+ "арифметические операции, 3 - Исключающее ИЛИ), "
-						+ "первую переменную, вторую переменную через пробел");
-		String data = sc.nextLine();
-		
-		switch (data.charAt(0)) {
-		case '1':
-			viewer.showInfo(sw.swapFirstWay(data));
-			break;
-		case '2':
-			viewer.showInfo(sw.swapSecondWay(data));
-			break;
-		case '3':
-			viewer.showInfo(sw.swapThirdWay(data));
-			break;
-		default:
-			viewer.showInfo("Неверные данные");
-			break;
-		}	
-	}
-}
+package by.ipo.task1.controller;import by.ipo.task1.controller.impl.Command;import by.ipo.task1.service.SwapVariables;import by.ipo.task1.view.ru.MessageViewer;import by.ipo.task1.view.ru.SwapVariablesAnswer;import java.io.IOException;import java.util.Scanner;/** * This class represents command to swap variables. * @author Pavel Isidovich * */public class VariableSwap implements Command {		private MessageViewer viewer = MessageViewer.getInstance();	private SwapVariablesAnswer sva = SwapVariablesAnswer.getInstance();		/**	 * This method executes given command.	 */	@Override	public void execute() {		Scanner sc = new Scanner(System.in);		SwapVariables sv = SwapVariables.getInstance();				viewer.showInfo("Введите способ (1 - дополнительная переменная, 2 -  "						+ "арифметические операции, 3 - Исключающее ИЛИ), "						+ "первую переменную, вторую переменную через пробел");		String[] parsedData = sc.nextLine().split(" ");				try {			if (parsedData.length != 3) {				throw new IOException();			}						int first = Integer.parseInt(parsedData[1]);			int second = Integer.parseInt(parsedData[2]);			String original = first + " " + second;						switch (parsedData[0].charAt(0)) {			case '1':				sva.showInfo(original, sv.swapFirstWay(first, second));				break;			case '2':				sva.showInfo(original, sv.swapSecondWay(first, second));				break;			case '3':				sva.showInfo(original, sv.swapThirdWay(first, second));				break;			default:				throw new IOException();			}		} catch (IOException | NumberFormatException e) {			viewer.showInfo("Неверные данные");		}	}}

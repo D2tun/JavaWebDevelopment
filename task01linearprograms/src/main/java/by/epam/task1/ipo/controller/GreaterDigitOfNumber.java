@@ -1,9 +1,11 @@
-package by.epam.task1.ipo.controller;
+package by.ipo.task1.controller;
 
-import by.epam.task1.ipo.controller.impl.Command;
-import by.epam.task1.ipo.service.GreaterDigitSearch;
-import by.epam.task1.ipo.view.Viewer;
+import by.ipo.task1.controller.impl.Command;
+import by.ipo.task1.service.GreaterDigitSearch;
+import by.ipo.task1.view.ru.MessageViewer;
+import by.ipo.task1.view.ru.GreaterDigitOfNumberAnswer;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -14,7 +16,9 @@ import java.util.Scanner;
 
 public class GreaterDigitOfNumber implements Command {
 
-	private Viewer viewer = Viewer.getInstance();
+	private MessageViewer viewer = MessageViewer.getInstance();
+	private GreaterDigitOfNumberAnswer gdona = GreaterDigitOfNumberAnswer
+														.getInstance();
 	
 	/**
 	 * This method executes given command.
@@ -26,6 +30,11 @@ public class GreaterDigitOfNumber implements Command {
 		GreaterDigitSearch gds = GreaterDigitSearch.getInstance();
 		
 		viewer.showInfo("Введите натуральное число");
-		viewer.showInfo(gds.getGreaterDigit(sc.nextLine()));	
+		
+		try {
+			gdona.showInfo(gds.getGreaterDigit(Integer.parseInt(sc.nextLine())));
+		} catch (IOException | NumberFormatException e) {
+			viewer.showInfo("Неверные данные");
+		}
 	}
 }

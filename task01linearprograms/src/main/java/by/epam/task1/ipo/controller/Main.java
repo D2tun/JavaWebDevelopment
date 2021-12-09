@@ -50,7 +50,7 @@
  * Найдите количество чётных цифр данного натурального числа.
  */
 
-package by.epam.task1.ipo.controller;
+package by.ipo.task1.controller;
 
 import java.util.Scanner;
 
@@ -81,6 +81,7 @@ public class Main {
 								+ "- вычисление F(x) = x - sin(x)\n"
 								+ "- наибольшая цифра натурального числа\n"
 								+ "- чётные цифры натурального числа\n"
+								+ "- поменять переменные местами\n"
 								+ "- выход");
 			String command = sc.nextLine(); 
 			if (command.contains("выход")) {

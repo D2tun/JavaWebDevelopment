@@ -1,9 +1,11 @@
-package by.epam.task1.ipo.controller;
+package by.ipo.task1.controller;
 
-import by.epam.task1.ipo.controller.impl.Command;
-import by.epam.task1.ipo.service.FirstFunctionBuilder;
-import by.epam.task1.ipo.view.Viewer;
+import by.ipo.task1.controller.impl.Command;
+import by.ipo.task1.service.FirstFunctionBuilder;
+import by.ipo.task1.view.ru.MessageViewer;
+import by.ipo.task1.view.ru.FirstFunctionAnswer;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -14,7 +16,8 @@ import java.util.Scanner;
 
 public class MiddleCoordinateLineBuilder implements Command {
 	
-	private Viewer viewer = Viewer.getInstance();
+	private MessageViewer viewer = MessageViewer.getInstance();
+	private FirstFunctionAnswer ffa = FirstFunctionAnswer.getInstance();
 
 	/**
 	 * This method executes given command.
@@ -25,7 +28,21 @@ public class MiddleCoordinateLineBuilder implements Command {
 		Scanner sc = new Scanner(System.in);
 		FirstFunctionBuilder bff = FirstFunctionBuilder.getInstance();
 		
-		viewer.showInfo("Введите нижний предел счёта");
-		viewer.showInfo(bff.getCoordinates(sc.nextLine()));	
+		viewer.showInfo("Введите нижний предел счёта, верхний предел счёта и "
+				+ "шаг через пробел");
+		
+		String[] parsedData = sc.nextLine().split(" ");
+		
+		try {
+			if (parsedData.length != 3) {
+				throw new IOException();
+			}
+			double lowLimit = Double.parseDouble(parsedData[0]);
+			double highLimit = Double.parseDouble(parsedData[1]);
+			double step = Double.parseDouble(parsedData[2]);
+			ffa.showInfo(bff.getCoordinates(lowLimit, highLimit,step));
+		} catch (IOException | NumberFormatException e) {
+			viewer.showInfo("Неверные данные");
+		}
 	}
 }

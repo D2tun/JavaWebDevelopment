@@ -1,8 +1,9 @@
-package by.epam.task1.ipo.controller;
+package by.ipo.task1.controller;
 
-import by.epam.task1.ipo.controller.impl.Command;
-import by.epam.task1.ipo.service.NumberOfEvenDigits;
-import by.epam.task1.ipo.view.Viewer;
+import by.ipo.task1.controller.impl.Command;
+import by.ipo.task1.service.NumberOfEvenDigits;
+import by.ipo.task1.view.ru.MessageViewer;
+import by.ipo.task1.view.ru.EvenDigitsSearchAsnwer;
 
 import java.util.Scanner;
 
@@ -15,7 +16,8 @@ import java.util.Scanner;
 
 public class EvenDigitsOfNumberSearch implements Command {
 	
-	private Viewer viewer = Viewer.getInstance();
+	private MessageViewer viewer = MessageViewer.getInstance();
+	private EvenDigitsSearchAsnwer edsa = EvenDigitsSearchAsnwer.getInstance();
 
 	/**
 	 * This method executes given command.
@@ -27,6 +29,12 @@ public class EvenDigitsOfNumberSearch implements Command {
 		NumberOfEvenDigits noed = NumberOfEvenDigits.getInstance();
 		
 		viewer.showInfo("Введите натуральное число");
-		viewer.showInfo(noed.getQuantity(sc.nextLine()));	
+		
+		try {
+			int num = Integer.parseInt(sc.nextLine());
+			edsa.showInfo(noed.getQuantity(num));
+		} catch (NumberFormatException e) {
+			viewer.showInfo("Неверные данные");
+		}
 	}
 }

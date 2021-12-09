@@ -1,9 +1,10 @@
-package by.epam.task1.ipo.controller;
+package by.ipo.task1.controller;
 
-import by.epam.task1.ipo.controller.impl.Command;
-import by.epam.task1.ipo.service.FlatteryPhrase;
-import by.epam.task1.ipo.view.Viewer;
+import by.ipo.task1.controller.impl.Command;
+import by.ipo.task1.service.FlatteryPhrase;
+import by.ipo.task1.view.ru.MessageViewer;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -14,7 +15,7 @@ import java.util.Scanner;
 
 public class Flattery implements Command {
 	
-	private Viewer viewer = Viewer.getInstance();
+	private MessageViewer viewer = MessageViewer.getInstance();
 
 	/**
 	 * This method executes given command.
@@ -25,6 +26,11 @@ public class Flattery implements Command {
 		FlatteryPhrase fp = FlatteryPhrase.getInstance();
 		
 		viewer.showInfo("Кто ты мальчик или девочка? Введи Д или М");
-		viewer.showInfo(fp.getPhrase(sc.nextLine()));
+		
+		try {
+			viewer.showInfo(fp.getPhrase(sc.nextLine()));
+		} catch (IOException e) {
+			viewer.showInfo("Неверные данные");
+		}
 	}
 }
