@@ -1,10 +1,12 @@
-package test.epam.task1.ipo.service;
+package test.ipo.task1.service;
+
+import java.io.IOException;
 
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import by.epam.task1.ipo.service.FlatteryPhrase;
+import by.ipo.task1.service.FlatteryPhrase;
 
 public class FlatteryPhraseTest {
 
@@ -14,15 +16,30 @@ public class FlatteryPhraseTest {
 	public Object[][] setData(){
 		return new Object[][] {
 								{"М", "Мне нравятся мальчики!"},
-								{"Д", "Мне нравятся девочки!"},
-								{"agbasb", "Неверные данные"},
+								{"Д", "Мне нравятся девочки!"}
+							  };
+	}
+	
+	@DataProvider(name = "flatteryWrongData")
+	public Object[][] setWrongData(){
+		return new Object[][] {
+								{"agbasb", new IOException()},
+								{"Н", new IOException()}
 							  };
 	}
 	
 	@Test(description = "Проверка программы-льстеца", 
 		  dataProvider = "flatteryData")
-	public void getPhraseTest(String genderSign, String expectedAnswer) {
+	public void getPhraseTest(String genderSign, String expectedAnswer) 
+				throws IOException {
 		Assert.assertEquals(fp.getPhrase(genderSign), expectedAnswer);
 	}
 	
+	@Test(description = "Проверка программы-льстеца", 
+			  dataProvider = "flatteryWrongData", 
+			  expectedExceptions = IOException.class)
+	public void getPhraseWrongTest(String genderSign, IOException expectedAnswer) 
+				throws IOException {
+		Assert.assertEquals(fp.getPhrase(genderSign), expectedAnswer);
+	}
 }

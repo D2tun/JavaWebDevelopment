@@ -1,29 +1,41 @@
-package test.epam.task1.ipo.service;
-
-import by.epam.task1.ipo.service.NumberOfEvenDigits;
+package test.ipo.task1.service;
 
 import org.testng.Assert;
 import org.testng.annotations.*;
+
+import by.ipo.task1.service.NumberOfEvenDigits;
 
 public class NumberOfEvenDigitsTest {
 
 	private NumberOfEvenDigits noed = NumberOfEvenDigits.getInstance();
 	
-	@DataProvider(name = "divideData")
+	@DataProvider(name = "numberOfEvenDigitsData")
 	public Object[][] setData() {
 		return new Object[][] {
-								{"24", "Чётные цифры числа: 2, 4"},
-								{"2485", "Чётные цифры числа: 2, 4, 8"},
-								{"24 45", "Неверные данные"},
-								{"-24", "Неверные данные"},
-								{"цтл", "Неверные данные"},
-								{"23.44", "Неверные данные"}
+								{24, 2},
+								{2485, 3}
+							  };
+	}
+	
+	@DataProvider(name = "numberOfEvenDigitsWrongData")
+	public Object[][] setWrongData() {
+		return new Object[][] {
+								{-24, new NumberFormatException()},
+								{0, new NumberFormatException()},
 							  };
 	}
 	
 	@Test(description = "Проверка нахождения чётных цифр числа", 
-		  dataProvider = "divideData")
-	public void getQuantityTest(String data, String expectedAnswer) {
-		Assert.assertEquals(noed.getQuantity(data), expectedAnswer);
+		  dataProvider = "numberOfEvenDigitsData")
+	public void getQuantityTest(int num, int expectedAnswer) {
+		Assert.assertEquals(noed.getQuantity(num), expectedAnswer);
+	}
+	
+	@Test(description = "Проверка нахождения чётных цифр числа", 
+			  dataProvider = "numberOfEvenDigitsWrongData",
+			  expectedExceptions = NumberFormatException.class)
+	public void getQuantityTestWrong(int num, 
+									NumberFormatException expectedAnswer) {
+		Assert.assertEquals(noed.getQuantity(num), expectedAnswer);
 	}
 }

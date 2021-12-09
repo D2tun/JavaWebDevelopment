@@ -1,9 +1,9 @@
-package test.epam.task1.ipo.service;
-
-import by.epam.task1.ipo.service.UTFSymbolSearch;
+package test.ipo.task1.service;
 
 import org.testng.Assert;
 import org.testng.annotations.*;
+
+import by.ipo.task1.service.UTFSymbolSearch;
 
 public class UTFSymbolSearchTest {
 
@@ -11,20 +11,15 @@ public class UTFSymbolSearchTest {
 	
 	@DataProvider(name = "charFindData")
 	public Object[][] setData() {
-		return new Object[][] { {"k", "Символу k соответствует номер 107.\n "
-									  + "Следуюий символ l,\n предыдущий символ "
-									  + "j"},
-								{"7", "Символу 7 соответствует номер 55.\n "
-									  + "Следуюий символ 8,\n предыдущий символ "
-									  + "6"},
-								{"dbsb", "Неверные данные"}
+		return new Object[][] { 
+								{'k', new char[] {'k', 'l', 'j'}},
+								{'7', new char[] {'7', '8', '6'}},
 							  };	
 	}
 	
 	@Test(description = "Проверка нахождения символа utf8", 
 		  dataProvider = "charFindData")
-	public void searchSymbolTest(String data, String expectedAnswer) {
-		Assert.assertEquals(utfss.searchSymbol(data), expectedAnswer);
+	public void searchSymbolTest(char ch, char[] expectedAnswer) {
+		Assert.assertEquals(utfss.searchSymbol(ch), expectedAnswer);
 	}
-	
 }
