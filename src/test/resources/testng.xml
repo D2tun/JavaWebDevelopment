@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name = "Task1_2_3tests">
+ <test name = "Task1tests">
+  <classes>
+   <class name = "test.epam.task1.ipo.servise.AreaCalculationTest"/>
+   <class name = "test.epam.task1.ipo.servise.DecimalNumTurnerTest"/>
+   <class name = "test.epam.task1.ipo.servise.ExpressionCalculationTest"/>
+   <class name = "test.epam.task1.ipo.servise.NaturalNumDivTest"/>
+   <class name = "test.epam.task1.ipo.servise.UTFSymbolSearch"/>
+  </classes>
+ </test>
+ 
+ <test name = "Task2tests">
+  <classes>
+   <class name = "test.epam.task1.ipo.servise.ExpressionCalculationTest"/>
+   <class name = "test.epam.task1.ipo.servise.TriangleCheckTest"/>
+   <class name = "test.epam.task1.ipo.service.DateAndMonthRevealTest"/>
+   <class name = "test.epam.task1.ipo.service.FlatteryPhraseTest"/>
+  </classes>
+ </test>
+ 
+  <test name = "Task3tests">
+  <classes>
+   <class name = "test.epam.task1.ipo.servise.FirstFunctionBuilderTest"/>
+   <class name = "test.epam.task1.ipo.servise.SumOfSquaresTest"/>
+   <class name = "test.epam.task1.ipo.servise.SecondFunctionBuilder"/>
+   <class name = "test.epam.task1.ipo.servise.GreaterDigitSearchTest"/>
+   <class name = "test.epam.task1.ipo.servise.NumberOfEvenDigitsTest"/>
+  </classes>
+ </test>
+</suite>
