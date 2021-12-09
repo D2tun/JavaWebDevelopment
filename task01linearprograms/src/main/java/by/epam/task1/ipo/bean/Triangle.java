@@ -1,4 +1,4 @@
-package by.epam.task1.ipo.bean;
+package by.ipo.task1.bean;
 
 import java.io.Serializable;
 
@@ -110,6 +110,5 @@ public class Triangle implements Serializable {
 	public String toString() {
 		return "Triangle [side1=" + side1 + ", side2=" + side2 + ", side3="
 				+ side3 + "]";
-	}
-	
+	}	
 }
