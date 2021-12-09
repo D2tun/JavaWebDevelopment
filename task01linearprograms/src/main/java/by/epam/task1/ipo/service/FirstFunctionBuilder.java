@@ -1,4 +1,6 @@
-package by.epam.task1.ipo.service;
+package by.ipo.task1.service;
+
+import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
 
@@ -34,59 +36,43 @@ public class FirstFunctionBuilder {
 	/**
 	 * This function calculates coordinates of function of type
 	 * y = x (x > 2), y = -x (x <= 2).
-	 * @param a - low border, high border and step in string format
-	 * @return string-answer
+	 * @param lowBorder - low limit of argument x
+	 * @param highBorder - high limit of argument x
+	 * @param step - calculation step
+	 * @return pack of dots
+	 * @throws IOException - step entry error
 	 */
-	public String getCoordinates(String data) {
-		double lowBorder = Double.NaN;
-		double highBorder = Double.NaN;
-		double step = Double.NaN;
-		String[] parsedData = data.split(" ");
+	public double[][] getCoordinates(double lowBorder, double highBorder, 
+								 double step) throws IOException {
 		
-		if (parsedData.length != 3) {
-			return "Неверные данные";
+		double[][] coordinates = new double[(int) ((highBorder - lowBorder + 1) 
+													/ step)][2];
+		
+		if (lowBorder > highBorder) {
+			double temp = lowBorder;
+			lowBorder = highBorder;
+			highBorder = temp;
 		}
-		
-		if (parsedData[0].matches("^-{0,1}[0-9]+[.,]{0,1}[0-9]{0,}$") 
-				&& parsedData[1].matches("^-{0,1}[0-9]+[.,]{0,1}[0-9]{0,}$")
-				&& parsedData[2].matches("^[0-9]+[.,]{0,1}[0-9]{0,}$")) {
 			
-			parsedData[0] = parsedData[0].replace(',', '.');
-			parsedData[1] = parsedData[1].replace(',', '.');
-			parsedData[2] = parsedData[2].replace(',', '.');
-			
-			lowBorder = Double.parseDouble(parsedData[0]);
-			highBorder = Double.parseDouble(parsedData[1]);
-			step = Double.parseDouble(parsedData[2]);
-		
-			if (lowBorder > highBorder) {
-				double temp = lowBorder;
-				lowBorder = highBorder;
-				highBorder = temp;
-			}
-			
-			if ((lowBorder == Double.NaN) || (highBorder == Double.NaN) 
-					|| (step == Double.NaN) || (step <= 0)) {
-				return "Неверные данные";
-			} else {
-				logger.info("Данные получены");
-				
-				String answer = "x    y\n";
-				do {
-					if (lowBorder > 2) {
-						answer += lowBorder + "    " + lowBorder + "\n";
-					} else {
-						answer += lowBorder + "    " + (lowBorder * -1) + "\n";
-					}
-					lowBorder += step;
-				} while (lowBorder <= highBorder); 
-				
-				logger.info("Ответ отправлен");
-				
-				return answer;
-			}
+		if ((step <= 0)) {
+			throw new IOException();
 		} else {
-			return "Неверные данные";
+			logger.info("Данные получены");
+				
+			String answer = "x    y\n";
+			for (int i = 0; i < coordinates.length; ++i) {
+				coordinates[i][0] = lowBorder;
+				if (lowBorder > 2) {
+					coordinates[i][1] = lowBorder;
+				} else {
+					coordinates[i][1] = -1 * lowBorder;
+				}
+				lowBorder += step;
+			}
+				
+			logger.info("Ответ отправлен");
+			
+			return coordinates;
 		}
 	}
 }

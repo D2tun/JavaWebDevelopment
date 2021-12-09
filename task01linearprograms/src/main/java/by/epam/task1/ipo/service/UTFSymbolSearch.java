@@ -1,4 +1,4 @@
-package by.epam.task1.ipo.service;
+package by.ipo.task1.service;
 
 import org.apache.logging.log4j.LogManager;
 
@@ -37,24 +37,19 @@ public class UTFSymbolSearch {
 	 * @param data - target symbol
 	 * @return string-answer
 	 */
-	public String searchSymbol(String data) {
-		char ch = ' ';
+	public char[] searchSymbol(char ch) {
+		logger.info("Данные получены");
+		
 		byte nextChar = 0;
 		byte prevChar = 0;
 		
-		if (data.matches("^.{1}$")) {
-			ch = data.charAt(0);
-			nextChar = (byte) ((byte) ch + 1);
-			prevChar = (byte) ((byte) ch - 1);
-			logger.info("Данные получены");
-		} else {
-			return "Неверные данные";
-		}
+
+		nextChar = (byte) ((byte) ch + 1);
+		prevChar = (byte) ((byte) ch - 1);
 		
+
 		logger.info("Ответ отправлен");
 		
-		return "Символу " + ch + " соответствует номер " + (byte) ch 
-			   + ".\n Следуюий символ " + (char) nextChar 
-			   + ",\n предыдущий " + "символ " + (char) prevChar;
+		return new char[] {ch, (char) nextChar, (char) prevChar};
 	}
 }

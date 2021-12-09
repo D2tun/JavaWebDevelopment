@@ -1,4 +1,4 @@
-package by.epam.task1.ipo.service;
+package by.ipo.task1.service;
 
 import org.apache.logging.log4j.LogManager;
 
@@ -36,17 +36,17 @@ public class ModuleAccessCheck {
 	 * @param password - entered password
 	 * @return string-answer
 	 */
-	public String checkAccess(String password) {
+	public int checkAccess(String password) {
 		logger.info("Данные получены, ответ отправлен");
 		
 		if (password.matches("^9583$") | password.matches("^1747$")) {
-			return "Получен доступ к модулям А, В, С.";
+			return 3;
 		} else if (password.matches("^3331$") | password.matches("^7922$")) {
-			return "Получен доступ к модулям В, С.";
+			return 2;
 		} else if (password.matches("^9455$") | password.matches("^8997$")) {
-			return "Получен доступ к модулю С.";
+			return 1;
 		} else {
-			return "Отказ в доступе.";
+			return 0;
 		}
 	}
 }

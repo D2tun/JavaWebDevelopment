@@ -1,4 +1,6 @@
-package by.epam.task1.ipo.service;
+package by.ipo.task1.service;
+
+import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
 
@@ -36,55 +38,56 @@ public class DateAndMonthReveal {
 	 * by number of day in year. Method returns string-answer, ready
 	 * to be displayed (for example "1 января").
 	 * @param data - number of day in year (1 - 365)
-	 * @return string-answer
+	 * @return result - array, where result[0] - number of day in year, 
+	 * result[1] - number of month in year
+	 * @throws IOException  - wrong data exception
 	 */
-	public String getDateAndMonth(String data) {
-		
-		int dayInYear = 0;
-		
-		if (data.matches("[0-9]{1,3}")) {
-			dayInYear = Integer.parseInt(data);
-		} 
+	public int[] getDateAndMonth(int dayInYear) throws IOException {
+		int[] result = {dayInYear, 1};
 		
 		logger.info("Данные получены");
 		
 		if ((dayInYear >= 1) & (dayInYear <= 31)) {
-			return dayInYear + " января";
+			result[1] = 1;
 		} else if ((dayInYear >= 32) & (dayInYear <= 59)) {
-			dayInYear -= 31;
-			return dayInYear + " февраля";
+			result[0] -= 31;
+			result[1] = 2;
 		} else if ((dayInYear >= 60) & (dayInYear <= 90)) {
-			dayInYear -= 59;
-			return dayInYear + " марта";
+			result[0] -= 59;
+			result[1] = 3;
 		} else if ((dayInYear >= 91) & (dayInYear <= 120)) {
-			dayInYear -= 90;
-			return dayInYear + " апреля";
+			result[0] -= 90;
+			result[1] = 4;
 		} else if ((dayInYear >= 121) & (dayInYear <= 151)) {
-			dayInYear -= 120;
-			return dayInYear + " мая";
+			result[0] -= 120;
+			result[1] = 5;
 		} else if ((dayInYear >= 152) & (dayInYear <= 181)) {
-			dayInYear -= 151;
-			return dayInYear + " июня";
+			result[0] -= 151;
+			result[1] = 6;
 		} else if ((dayInYear >= 182) & (dayInYear <= 212)) {
-			dayInYear -= 181;
-			return dayInYear + " июля";
+			result[0] -= 181;
+			result[1] = 7;
 		} else if ((dayInYear >= 213) & (dayInYear <= 243)) {
-			dayInYear -= 212;
-			return dayInYear + " августа";
+			result[0] -= 212;
+			result[1] = 8;
 		} else if ((dayInYear >= 244) & (dayInYear <= 273)) {
-			dayInYear -= 243;
-			return dayInYear + " сентября";
+			result[0] -= 243;
+			result[1] = 9;
 		} else if ((dayInYear >= 274) & (dayInYear <= 304)) {
-			dayInYear -= 273;
-			return dayInYear + " октября";
+			result[0] -= 273;
+			result[1] = 10;
 		} else if ((dayInYear >= 305) & (dayInYear <= 334)) {
-			dayInYear -= 304;
-			return dayInYear + " ноября";
+			result[0] -= 304;
+			result[1] = 11;
 		} else if ((dayInYear >= 335) & (dayInYear <= 365)) {
-			dayInYear -= 334;
-			return dayInYear + " декабря";
+			result[0] -= 334;
+			result[1] = 12;
 		} else {
-			return "Неверные данные";
+			throw new IOException();
 		}
+		
+		logger.info("Ответ отправлен");
+		
+		return result;
 	}
 }

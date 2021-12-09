@@ -1,4 +1,6 @@
-package by.epam.task1.ipo.service;
+package by.ipo.task1.service;
+
+import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
 
@@ -34,34 +36,27 @@ public class NumberOfEvenDigits {
 	/**
 	 * This method count's even digits in digit's set.
 	 * @param data - entered number
-	 * @return string-answer
+	 * @return number of even digits
+	 * @throws IOException - wrong data entry 
 	 */
-	public String getQuantity(String data) {
-		char[] digits;
-		
-		if (data.matches("[0-9]+") && !data.matches("0{1}")) {
-			digits = data.toCharArray();
-		} else {
-			return "Неверные данные";
-		}
-		
+	public int getQuantity(int num) throws NumberFormatException {
 		logger.info("Данные получены");
 		
-		String answer = "Чётные цифры числа: ";
+		int count = 0;
 		
-		for (int i = 0; i < digits.length; i++) {
-			if (Integer.valueOf(digits[i]) % 2 == 0) {
-				answer += (digits[i]) + ", ";
-			}
+		if (num <= 0) {
+			throw new NumberFormatException();
 		}
 		
-		answer = answer.trim();
-		
-		StringBuilder cut = new StringBuilder(answer);
-		answer = cut.deleteCharAt(answer.length() - 1).toString();
+		while (num > 0) {
+			if (num % 2 == 0) {
+				++count;
+			}
+			num /= 10;
+		}
 		
 		logger.info("Данные отправлены");
 		
-		return answer;
+		return count;
 	}
 }

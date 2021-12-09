@@ -1,4 +1,6 @@
-package by.epam.task1.ipo.service;
+package by.ipo.task1.service;
+
+import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
 
@@ -32,24 +34,27 @@ public class GreaterDigitSearch {
 	
 	/**
 	 * This method searches the largest digit.
-	 * @param data - entered number
-	 * @return string-answer
+	 * @param num - entered number
+	 * @return largest number's digit 
+	 * @throws IOException - wrong input data
 	 */
-	public String getGreaterDigit(String data) {
-		char greaterDigit = 0;
-		
-		if (data.matches("^[0-9]+$") && !data.matches("^0{1}&")) {
-			char[] digits = data.toCharArray();
-			for (int i = 0; i < digits.length; i++) {
-				if (Integer.valueOf(digits[i]) > greaterDigit) {
-					greaterDigit = digits[i];
-				}
-			}
-			logger.info("Данные получены");
-			logger.info("Ответ отправлен");
-			return "Наибольшая цифра числа: " + greaterDigit; 
-		} else {
-			return "Неверные данные";
+	public int getGreaterDigit(int num) throws IOException {
+		int greaterDigit = 0;
+
+		if (num <= 0) {
+			throw new IOException();
 		}
+		
+		logger.info("Данные получены");
+		
+		while (num != 0) {
+			if (greaterDigit < (num % 10)) {
+				greaterDigit =  num % 10;
+			}
+			num = num / 10;
+		}
+		
+		logger.info("Ответ отправлен");
+		return greaterDigit; 
 	}
 }

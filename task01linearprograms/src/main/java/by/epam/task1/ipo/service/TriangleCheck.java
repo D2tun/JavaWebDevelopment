@@ -1,8 +1,10 @@
-package by.epam.task1.ipo.service;
+package by.ipo.task1.service;
+
+import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
 
-import by.epam.task1.ipo.bean.Triangle;
+import by.ipo.task1.bean.Triangle;
 
 /**
  * This class provides method to check triangle.
@@ -35,34 +37,16 @@ public class TriangleCheck {
 	/**
 	 * This method returns string-answer cording to condition if 
 	 * triangle is equilateral or not.
-	 * @param data - lengths of triangle in string format
-	 * @return string-answer
+	 * @param side1 - side of triangle
+	 * @param side2 - side of triangle
+	 * @param side3 - side of triangle
+	 * @return true if triangle is equilateral, esle - false
 	 */
-	public String checkEquilaterality(String data) {
-		double side1 = 0;
-		double side2 = 0;
-		double side3 = 0;
-		String[] parsedData = data.split(" ");
-
-		//??
-		if (parsedData.length != 3) {
-			return "Неверные данные";
-		}
-		
-		if (parsedData[0].matches("^[0-9]+[.,]{0,1}[0-9]{0,}$") 
-				&& parsedData[1].matches("^[0-9]+[.,]{0,1}[0-9]{0,}$")
-				&& parsedData[2].matches("^[0-9]+[.,]{0,1}[0-9]{0,}$")) {
+	public boolean checkEquilaterality(double side1, double side2, double side3)
+		throws IOException {
 			
-			parsedData[0] = parsedData[0].replace(',', '.');
-			parsedData[1] = parsedData[1].replace(',', '.');
-			parsedData[2] = parsedData[2].replace(',', '.');
-			
-			side1 = Double.valueOf(parsedData[0]);
-			side2 = Double.valueOf(parsedData[1]);
-			side3 = Double.valueOf(parsedData[2]);
-			
-			if ((side1 == 0) || (side2 == 0) || (side3 == 0)) {
-				return "Неверные данные";
+			if ((side1 <= 0) || (side2 <= 0) || (side3 <= 0)) {
+				throw new IOException();
 			} 
 			
 			logger.info("Данные получены");
@@ -71,13 +55,6 @@ public class TriangleCheck {
 			
 			logger.info("Ответ отправлен");
 			
-			if (tr.isEquilateral()) {
-				return "Это равносторонний треугольник";
-			} else {
-				return "Это не равносторонний треугольник";
-			}
-		} else {
-			return "Неверные данные";
-		}
+			return tr.isEquilateral();
 	}
 }

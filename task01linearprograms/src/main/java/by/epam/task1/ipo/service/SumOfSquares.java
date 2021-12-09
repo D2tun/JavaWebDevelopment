@@ -1,4 +1,6 @@
-package by.epam.task1.ipo.service;
+package by.ipo.task1.service;
+
+import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
 
@@ -33,18 +35,13 @@ public class SumOfSquares {
 	/**
 	 * This method calculates sum of square values of numbers in 
 	 * range from 1 to <strong>quantity</strong>.
-	 * @param data - quantity of numbers
-	 * @return string-answer
+	 * @param quantity - quantity of numbers
+	 * @return sum of numbers' squares
 	 */
-	public String getSum(String data) {
-		int quantity = 0;
-		
-		if (data.matches("[0-9]+")) {
-			quantity = Integer.valueOf(data);
-			
-		} else {
-			return "Неверные данные";
-		}	
+	public int getSum(int quantity) throws IOException {		
+		if (quantity <= 0) {
+			throw new IOException();
+		}
 		
 		logger.info("Данные получены");
 		
@@ -56,6 +53,6 @@ public class SumOfSquares {
 		
 		logger.info("Данные отправлены");
 		
-		return "Сумма квадратов первых " + quantity + " чисел: " + result;
+		return result;
 	}
 }

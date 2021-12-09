@@ -1,4 +1,6 @@
-package by.epam.task1.ipo.service;
+package by.ipo.task1.service;
+
+import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
 
@@ -34,33 +36,14 @@ public class SecondFunctionBuilder {
 	/**
 	 * This method calculates coordinates of dots in function of type
 	 * F(x) = x - sin(x).
-	 * @param a - low limit of argument x
-	 * @param b - high limit of argument x
-	 * @param h - calculation step
-	 * @return string-answer
+	 * @param lowBorder - low limit of argument x
+	 * @param highBorder - high limit of argument x
+	 * @param step - calculation step
+	 * @return pack of dots
+	 * @throws IOException - step entry error
 	 */
-	public String getCoordinates(String data) {
-		double lowBorder = Double.NaN;
-		double highBorder = Double.NaN;
-		double step = Double.NaN;
-		String[] parsedData = data.split(" ");
-		
-		if (parsedData.length != 3) {
-			return "Неверные данные";
-		}
-
-		if (parsedData[0].matches("^-{0,1}[0-9]+[.,]{0,1}[0-9]{0,}$") 
-				&& parsedData[1].matches("^-{0,1}[0-9]+[.,]{0,1}[0-9]{0,}$")
-				&& parsedData[2].matches("^{0,1}[0-9]+[.,]{0,1}[0-9]{0,}$")) {
-			
-			parsedData[0] = parsedData[0].replace(',', '.');
-			parsedData[1] = parsedData[1].replace(',', '.');
-			parsedData[2] = parsedData[2].replace(',', '.');
-			
-			lowBorder = Double.parseDouble(parsedData[0]);
-			highBorder = Double.parseDouble(parsedData[1]);
-			step = Double.parseDouble(parsedData[2]);
-		}
+	public double[][] getCoordinates(double lowBorder, double highBorder, 
+								 double step) throws IOException {
 		
 		if (lowBorder > highBorder) {
 			double temp = lowBorder;
@@ -68,25 +51,23 @@ public class SecondFunctionBuilder {
 			highBorder = temp;
 		}
 		
-		if ((lowBorder == Double.NaN) || (highBorder == Double.NaN) 
-				|| (step == Double.NaN) || (step <= 0)) {
-			return "Неверные данные";
+		if ((step <= 0)) {
+			throw new IOException();
 		}	
 		
 		logger.info("Данные получены");
 		
-		String answer = "x    y\n";
-		double fx = 0;
+		double[][] coordinates = new double[(int) ((highBorder - lowBorder + 1) 
+													/ step)][2];
 		
-		do {
-			fx = lowBorder - StrictMath.sin(lowBorder);
-			answer += lowBorder + "    " + fx + "\n";
-			lowBorder += step;
-		} while (lowBorder <= highBorder);
+		for (int i = 0; i < coordinates.length; ++i, lowBorder += step) {
+			coordinates[i][0] = lowBorder;
+			coordinates[i][1] = lowBorder - StrictMath.sin(lowBorder);
+		}
+		
 		
 		logger.info("Данные отправлены");
 		
-		return answer;
+		return coordinates;
 	}
-
 }

@@ -1,4 +1,4 @@
-package by.epam.task1.ipo.service;
+package by.ipo.task1.service;
 
 import org.apache.logging.log4j.LogManager;
 
@@ -34,26 +34,23 @@ public class DecimalNumTurner {
 	/**
 	 * This method turns <strong>number</strong> of format nnn.ddd to
 	 * ddd.nnn.
-	 * @param data - number of format nnn.ddd
-	 * @return string-answer
+	 * @param num - number of format nnn.ddd
+	 * @return num - array, where num[0] - original number, num[1] - 
+	 * changed number
 	 */
-	public String turn(String data) {
-		double num = Double.NaN;
+	public double[] turn(double num) {
 		
-		if (data.matches("^[0-9]{3}[.,]{1}[0-9]{3}$")) {
-			data = data.replace(',', '.');
-			num = Double.valueOf(data);
+		if (String.valueOf(num).matches("^[0-9]{3}[.,]{1}[0-9]{3}$")) {
+			logger.info("Даные получены");
+			
+			double turnedNum = (num * 1000) % 1000 + StrictMath.floor(num) 
+								/ 1000;
+			
+			logger.info("Ответ отправлен");
+			
+			return new double[] {num, turnedNum};
+		} else {
+			throw new NumberFormatException();
 		}
-		
-		if (Double.isNaN(num)) {
-			return "Неверные данные";
-		}
-		
-		logger.info("Даные получены");
-		
-		double a = (num * 1000) % 1000 + StrictMath.floor(num) / 1000;
-		
-		logger.info("Ответ отправлен");
-		return "Число " + num + " стало " + a;	 
 	}
 }

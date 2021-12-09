@@ -1,4 +1,6 @@
-package by.epam.task1.ipo.service;
+package by.ipo.task1.service;
+
+import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
 
@@ -9,7 +11,6 @@ import org.apache.logging.log4j.LogManager;
  * @author Pavel Isidovich
  *
  */
-
 public class NaturalNumDiv {
 
 	private static NaturalNumDiv instance;
@@ -37,37 +38,22 @@ public class NaturalNumDiv {
 	 * integer part and oldest radix of result's fractional part.
 	 * @param m - dividend
 	 * @param n - divider
-	 * @return string-answer
+	 * @return array, where element[0] - youngest integer radix, 
+	 * element[1] - eldest fractional radix
 	 */
-	public String divide(String data) {
-		double m;
-		double n;
-		String[] parsedData = data.split(" ");
+	public int[] divide(double m, double n) throws IOException {
 		
-		if (parsedData.length != 2) {
-			return "Неверные данные";
+		if ((m <= 0) | (n <= 0)) {
+			throw new IOException();
 		}
 		
-		if (parsedData[0].matches("^[0-9]+$") 
-				&& parsedData[1].matches("^[0-9]+$")) {
-			logger.info("Данные получены");
+		double divRes = m / n;
+		int num = (int) divRes;
+		double frac = divRes - num;
+		int[] result = {num % 10, (int) (frac * 10)};
 			
-			m = Integer.valueOf(parsedData[0]);
-			n = Integer.valueOf(parsedData[1]);
+		logger.info("Ответ отправлен");
 			
-			double divRes = m / n;
-			int num = (int) divRes;
-			double frac = divRes - num;
-			int fracElder = (int) (frac * 10);
-			int numYounger = num % 10;
-			
-			logger.info("Ответ отправлен");
-			
-			return (int) m + " / " + (int) n + " = " + divRes + "\nСтаршая цифра "
-					+ "дробной части " + fracElder + "\nМладшая цифра целой " + 
-					"части " + numYounger;
-		} else {
-			return "Неверные данные";
-		}
+		return result;
 	}
 }
