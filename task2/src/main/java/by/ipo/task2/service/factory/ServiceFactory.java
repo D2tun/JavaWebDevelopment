@@ -1,0 +1,110 @@
+package by.ipo.task2.service.factory;
+
+import by.ipo.task2.service.FileCreatingService;
+import by.ipo.task2.service.SortingService;
+import by.ipo.task2.service.impl.BubbleSortServiceImpl;
+import by.ipo.task2.service.impl.ChoiceSortServiceImpl;
+import by.ipo.task2.service.impl.FileCreatingServiceImpl;
+import by.ipo.task2.service.impl.InsertionSortBinaryImpl;
+import by.ipo.task2.service.impl.InsertionSortServiceImpl;
+import by.ipo.task2.service.impl.MergeSortServiceImpl;
+import by.ipo.task2.service.impl.ShakerSortServiceImpl;
+import by.ipo.task2.service.impl.ShellSortServiceImpl;
+
+/**
+ * This class represents factory of service.
+ * @author Pavel Isidovich
+ */
+public class ServiceFactory {
+	
+	private static final ServiceFactory instance = new ServiceFactory();
+	
+	private final FileCreatingService fcs = new FileCreatingServiceImpl();
+	private final SortingService ssbs = new BubbleSortServiceImpl();
+	private final SortingService ssss = new ShakerSortServiceImpl();
+	private final SortingService sscs = new ChoiceSortServiceImpl();
+	private final SortingService ssis = new InsertionSortServiceImpl();
+	private final SortingService ssisb = new InsertionSortBinaryImpl();
+	private final SortingService ssms = new MergeSortServiceImpl();
+	private final SortingService ssshs = new ShellSortServiceImpl();
+	
+	/**
+	 * This method returns link on existing object of this class.
+	 * @return <strong>instance</strong> of object.
+	 */
+	public static ServiceFactory getInstance() {
+		return instance;
+	}
+	
+	/**
+	 * This method returns link on existing object of 
+	 * FileCreatingService class.
+	 * @return <strong>instance</strong> of object.
+	 */
+	public FileCreatingService getFileCreatingService() {
+		return fcs;
+	}
+
+	/**
+	 * This method returns link on existing object of 
+	 * SortingService class.
+	 * @return <strong>instance</strong> of object.
+	 */
+	public SortingService getBubbleSortService() {
+		return ssbs;
+	}
+	
+	/**
+	 * This method returns link on existing object of 
+	 * SortingService class.
+	 * @return <strong>instance</strong> of object.
+	 */
+	public SortingService getShakerSortService() {
+		return ssss;
+	}
+	
+	/**
+	 * This method returns link on existing object of 
+	 * SortingService class.
+	 * @return <strong>instance</strong> of object.
+	 */
+	public SortingService getChoiceSortService() {
+		return sscs;
+	}
+	
+	/**
+	 * This method returns link on existing object of 
+	 * SortingService class.
+	 * @return <strong>instance</strong> of object.
+	 */
+	public SortingService getInsertionSortService() {
+		return ssis;
+	}
+	
+	/**
+	 * This method returns link on existing object of 
+	 * SortingService class.
+	 * @return <strong>instance</strong> of object.
+	 */
+	public SortingService getInsertionSortBSService() {
+		return ssisb;
+	}
+	
+	/**
+	 * This method returns link on existing object of 
+	 * SortingService class.
+	 * @return <strong>instance</strong> of object.
+	 */
+	public SortingService getMergeSortService() {
+		return ssms;
+	}
+	
+	/**
+	 * This method returns link on existing object of 
+	 * SortingService class.
+	 * @return <strong>instance</strong> of object.
+	 */
+	public SortingService getShellSortService() {
+		return ssshs;
+	}
+}
