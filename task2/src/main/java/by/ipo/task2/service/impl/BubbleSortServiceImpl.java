@@ -29,8 +29,7 @@ public class BubbleSortServiceImpl implements SortingService {
 	 */
 	@Override
 	public Array sort(String path) throws ServiceException {
-		if (path.matches("([A-Za-z]{1}:{1}\\\\{1}){1}([^|?/:\"<>*]*\\\\{1})*"
-						+ "[^|?/:\\\"<>*]{1,}(\\.txt){1}")) {
+		if (path.matches("([A-Za-z]{1}:{1}\\\\{1}){1}([^|?/:\"<>*]*\\\\{1})*[^|?/:\\\"<>*]{1,}(\\.txt){1}")) {
 			logger.info("Данные получены");
 			
 			DAOFactory daof = DAOFactory.getInstance();
@@ -52,7 +51,7 @@ public class BubbleSortServiceImpl implements SortingService {
 					}
 				}
 				
-				logger.info("Пузырьковая сортировка окончена");
+				logger.info("Пузырьковая сортровка окончена");
 				
 				return result;
 			} catch (IOException e) {

@@ -1,12 +1,16 @@
 package by.ipo.task2.service.factory;
 
 import by.ipo.task2.service.FileCreatingService;
+import by.ipo.task2.service.MatrixOperationService;
 import by.ipo.task2.service.SortingService;
 import by.ipo.task2.service.impl.BubbleSortServiceImpl;
 import by.ipo.task2.service.impl.ChoiceSortServiceImpl;
 import by.ipo.task2.service.impl.FileCreatingServiceImpl;
 import by.ipo.task2.service.impl.InsertionSortBinaryImpl;
 import by.ipo.task2.service.impl.InsertionSortServiceImpl;
+import by.ipo.task2.service.impl.MatrixProductServiceImpl;
+import by.ipo.task2.service.impl.MatrixSubtractServiceImpl;
+import by.ipo.task2.service.impl.MatrixSumServiceImpl;
 import by.ipo.task2.service.impl.MergeSortServiceImpl;
 import by.ipo.task2.service.impl.ShakerSortServiceImpl;
 import by.ipo.task2.service.impl.ShellSortServiceImpl;
@@ -27,6 +31,9 @@ public class ServiceFactory {
 	private final SortingService ssisb = new InsertionSortBinaryImpl();
 	private final SortingService ssms = new MergeSortServiceImpl();
 	private final SortingService ssshs = new ShellSortServiceImpl();
+	private final MatrixOperationService moss = new MatrixSumServiceImpl();
+	private final MatrixOperationService mossb = new MatrixSubtractServiceImpl();
+	private final MatrixOperationService mosp = new MatrixProductServiceImpl();
 	
 	/**
 	 * This method returns link on existing object of this class.
@@ -106,5 +113,32 @@ public class ServiceFactory {
 	 */
 	public SortingService getShellSortService() {
 		return ssshs;
+	}
+	
+	/**
+	 * This method returns link on existing object of 
+	 * SortingService class.
+	 * @return <strong>instance</strong> of object.
+	 */
+	public MatrixOperationService getMatrixSumService() {
+		return moss;
+	}
+	
+	/**
+	 * This method returns link on existing object of 
+	 * SortingService class.
+	 * @return <strong>instance</strong> of object.
+	 */
+	public MatrixOperationService getMatrixSubtractService() {
+		return mossb;
+	}
+	
+	/**
+	 * This method returns link on existing object of 
+	 * SortingService class.
+	 * @return <strong>instance</strong> of object.
+	 */
+	public MatrixOperationService getMatrixProductService() {
+		return mosp;
 	}
 }

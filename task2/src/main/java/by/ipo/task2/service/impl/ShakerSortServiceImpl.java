@@ -29,8 +29,7 @@ public class ShakerSortServiceImpl implements SortingService {
 	*/
 	@Override
 	public Array sort(String path) throws ServiceException {
-		if (path.matches("([A-Za-z]{1}:{1}\\\\{1}){1}([^|?/:\"<>*]*\\\\{1})*"
-				+ "[^|?/:\\\"<>*]{1,}(\\.txt){1}")) {
+		if (path.matches("([A-Za-z]{1}:{1}\\\\{1}){1}([^|?/:\"<>*]*\\\\{1})*")) {
 			logger.info("Данные получены");
 			
 			DAOFactory daof = DAOFactory.getInstance();
@@ -59,7 +58,7 @@ public class ShakerSortServiceImpl implements SortingService {
 					--right;
 				}
 				
-				logger.info("Cортировка встряхиванием окончена");
+				logger.info("Cортровка встряхиванием окончена");
 				
 				return result;
 			} catch (IOException e) {
