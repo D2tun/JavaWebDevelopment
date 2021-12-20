@@ -12,6 +12,11 @@ import by.ipo.task2.service.exception.ServiceException;
 import by.ipo.task2.service.factory.ServiceFactory;
 import by.ipo.task2.view.MessageViewer;
 
+/**
+ * This class represents command to sort array through selection sort.
+ * @author Pavel Isidovich
+ *
+ */
 public class ChoiceSortCommand implements Command {
 	private static org.apache.logging.log4j
 					.Logger logger = LogManager.getFormatterLogger();

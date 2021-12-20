@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import org.apache.logging.log4j.LogManager;
 
 import by.ipo.task2.controller.Command;
+import by.ipo.task2.view.MessageViewer;
 
 /**
  * This class calls another command class, depended on user's request.
@@ -25,6 +26,7 @@ public class CommandManager {
 					.Logger logger = LogManager.getFormatterLogger();
 	private ResourceBundle rb = ResourceBundle.getBundle("view", 
 			   											   Locale.getDefault());
+	private static MessageViewer mw = MessageViewer.getInstance();
 	
 	/** 
 	 * This constructor creates new CommandManager and initializes
@@ -49,7 +51,12 @@ public class CommandManager {
 						  new MergeSortCommand());
 		this.commands.put(rb.getString("shellSortCommandRequest"),
 				  		  new ShellSortCommand());
-							
+		this.commands.put(rb.getString("matrixSumCommandRequest"), 
+						  new MatrixSumCommand());
+		this.commands.put(rb.getString("matrixSubtractCommandRequest"), 
+				  		  new MatrixSubtractCommand());
+		this.commands.put(rb.getString("matrixProductCommandRequest"), 
+						  new MatrixProductCommand());				
 	}
 	
 	/**
@@ -78,8 +85,8 @@ public class CommandManager {
 			command = null;
 		}
 		if (command == null) {
-			System.out.println("Нет такой команды.");
-			logger.info("Команды '" + request + "' не существует");
+			mw.showInfo(rb.getString("noSuchCommand"));
+			logger.info("Команда '" + request + "' отсутствует");
 		} else {
 			logger.info("Команда '" + request + "' выполняется");
 			command.execute();
