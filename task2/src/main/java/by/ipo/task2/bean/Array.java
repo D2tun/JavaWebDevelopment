@@ -21,13 +21,13 @@ public class Array<T> implements Serializable {
 					.Logger logger = LogManager.getFormatterLogger();
 
 	/**
-	 * This constructor creates array of  chosen type.
+	 * This constructor creates array of chosen type.
 	 * @param length - length of the array
 	 */
 	public Array(int length) {
 		this.length = length;
 		this.array = (T[]) new Object[length]; 
-		logger.info("Экземпляр класса создан");
+		logger.info("Массив успешно создан");
 	}
 	
 	public Array() {
@@ -43,11 +43,11 @@ public class Array<T> implements Serializable {
 	public void setParameter(T param, int index) 
 			throws IndexOutOfBoundsException {
 		if ((index > this.length) || (index <= 0)) {
-			logger.error("Ошибка при добавлении элемента: неверный индекс");
+			logger.error("Ошибка размерности массива");
 			throw new IndexOutOfBoundsException();
 		}
 		this.array[index] = param;
-		logger.info("Параметры добавлены");
+		logger.info("Параметр установлен");
 	}
 	
 	/**
@@ -56,7 +56,7 @@ public class Array<T> implements Serializable {
 	 */
 	public void setParameters(Object[] params) {
 		this.array = (T[]) params;
-		logger.info("Параметры добавлены");
+		logger.info("Параметры установлены");
 	}
 	
 	/**
@@ -95,7 +95,7 @@ public class Array<T> implements Serializable {
 	 */
 	public T getParameter(int index) throws IndexOutOfBoundsException {
 		if ((index > this.length) || (index <= 0)) {
-			logger.error("Ошибка при добавлении элемента: неверный индекс");
+			logger.error("Ошибка в размерности массива");
 			throw new IndexOutOfBoundsException();
 		}
 		return this.array[index];
