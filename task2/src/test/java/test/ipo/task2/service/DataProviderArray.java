@@ -17,11 +17,6 @@ public class DataProviderArray {
 	private String path2 = new File(cl.getResource("SameElementCheck.txt").getFile()).getAbsolutePath();
 	private String path3 = new File(cl.getResource("RegularArrayCheck.txt").getFile()).getAbsolutePath();
 	
-	/*
-	private String path1 = new File("OneElementCheck.txt").getAbsolutePath();
-	private String path2 = new File("SameElementCheck.txt").getAbsolutePath();
-	private String path3 = new File("RegularArrayCheck.txt").getAbsolutePath();
-	 */
 	@DataProvider(name = "fileData")
 	public Object[][] setData() throws URISyntaxException {
 		Array<Double> arrOne = new Array<Double>(1);

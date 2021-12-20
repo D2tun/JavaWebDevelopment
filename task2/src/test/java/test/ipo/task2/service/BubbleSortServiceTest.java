@@ -11,11 +11,8 @@ public class BubbleSortServiceTest {
 
 	private BubbleSortServiceImpl bss = new BubbleSortServiceImpl();
 	
-	@Test(description = "Проверка пузырьковой сортировки", 
-		  dataProvider = "fileData", 
-		  dataProviderClass = DataProviderArray.class)
-	public void testBubbleSort(String path, Array<Double> expected) 
-			throws ServiceException {
+	@Test(description = "Проверка пузырьковой сортировки", dataProvider = "fileData", dataProviderClass = DataProviderArray.class)
+	public void testBubbleSort(String path, Array<Double> expected) throws ServiceException {
 		Assert.assertEquals(bss.sort(path), expected);
 	}
 }
