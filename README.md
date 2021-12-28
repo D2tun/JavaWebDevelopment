@@ -1,1 +1,1 @@
-Текст задач можно увидеть в пакете Controller в файле Main.java
+Текст задач можно увидеть в пакете Controller или View в файле Main.java
