@@ -1,0 +1,19 @@
+{
+	"Commitments": [
+		{
+			"insuranceType": "propertyInsurance",
+			"cost": 1560,
+			"riskCoefficient": 0.6
+		},
+		{
+			"insuranceType": "lifeInsurance",
+			"cost": 2684,
+			"riskCoefficient": 7
+		},
+		{
+			"insuranceType": "estateInsurance",
+			"cost": 786,
+			"riskCoefficient": 0.3
+		}
+	]
+}
