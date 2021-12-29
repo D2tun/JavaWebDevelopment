@@ -20,7 +20,7 @@ public class Main {
 		CommandManager cm = CommandManager.getInstance();
 		Scanner sc = new Scanner(System.in);
 		ResourceBundle menu = ResourceBundle.getBundle("view", 
-													   Locale.getDefault());
+							       Locale.getDefault());
 		
 		while(true) {
 			System.out.println(menu.getString("menu"));
