@@ -27,20 +27,16 @@ public class InsertionSortBSCommand implements Command {
 		private static MessageViewer mw = MessageViewer.getInstance();
 
 		/** 
-		* This constructor creates new CommandManager and initializes
-		* command map.
+		* Executes command.
 		*/
 		@Override
 		public void execute() {
 			ServiceFactory sf = ServiceFactory.getInstance();
 			SortingService ss = sf.getInsertionSortBSService();
-			Scanner sc = new Scanner(System.in);
-			
-			mw.showInfo(rb.getString("pathRequest"));
 
 			try {
 				logger.info("Команда выполняется");
-				mw.showInfo(ss.sort(sc.nextLine()).formatArrayToString());
+				mw.showArray(ss.sort(mw.dataRequest(rb.getString("pathRequest"))));
 			} catch (ServiceException e) {
 				logger.error("Неверные данные");
 				mw.showInfo(rb.getString("wrongData"));

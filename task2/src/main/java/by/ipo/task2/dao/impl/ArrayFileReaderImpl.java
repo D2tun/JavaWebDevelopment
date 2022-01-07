@@ -1,6 +1,7 @@
 package by.ipo.task2.dao.impl;
 
-import by.ipo.task2.dao.ArrayFileReader;
+import by.ipo.task2.bean.Array;
+import by.ipo.task2.dao.FileReader;
 import by.ipo.task2.dao.exception.FileAccessException;
 
 import java.io.IOException;
@@ -14,7 +15,7 @@ import org.apache.logging.log4j.LogManager;
  * @author Pavel Isidovich
  *
  */
-public class ArrayFileReaderImpl implements ArrayFileReader {
+public class ArrayFileReaderImpl implements FileReader {
 	
 	private static org.apache.logging.log4j
 					.Logger logger = LogManager.getFormatterLogger();
@@ -22,7 +23,9 @@ public class ArrayFileReaderImpl implements ArrayFileReader {
 	@Override
 	public String readFile(String path) throws FileAccessException {
 		try {
+			
 			return Files.readString(Paths.get(path));
+			
 		} catch (IOException e) {
 			logger.error("Ошибка чтения файла");
 			throw new FileAccessException();

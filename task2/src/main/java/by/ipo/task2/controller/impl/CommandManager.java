@@ -56,7 +56,8 @@ public class CommandManager {
 		this.commands.put(rb.getString("matrixSubtractCommandRequest"), 
 				  		  new MatrixSubtractCommand());
 		this.commands.put(rb.getString("matrixProductCommandRequest"), 
-						  new MatrixProductCommand());				
+						  new MatrixProductCommand());		
+		this.commands.put(null, new NoSuchCommand());
 	}
 	
 	/**
@@ -85,7 +86,7 @@ public class CommandManager {
 			command = null;
 		}
 		if (command == null) {
-			mw.showInfo(rb.getString("noSuchCommand"));
+			this.commands.get(null).execute();
 			logger.info("Команда '" + request + "' отсутствует");
 		} else {
 			logger.info("Команда '" + request + "' выполняется");

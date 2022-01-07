@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 
 import by.ipo.task2.bean.Matrix;
-import by.ipo.task2.dao.ArrayFileReader;
+import by.ipo.task2.dao.FileReader;
 import by.ipo.task2.dao.factory.DAOFactory;
 import by.ipo.task2.service.MatrixOperationService;
 import by.ipo.task2.service.exception.ServiceException;
@@ -29,17 +29,15 @@ public class MatrixSubtractServiceImpl implements MatrixOperationService {
 	*/
 	@Override
 	public Matrix calculate(String path1, String path2) throws ServiceException {
-		if (!path1.matches("([A-Za-z]{1}:{1}\\\\{1}){1}([^|?/:\"<>*]*\\\\{1})*"
-						   + "[^|?/:\\\"<>*]{1,}(\\.txt){1}")
-				&& !path2.matches("([A-Za-z]{1}:{1}\\\\{1}){1}([^|?/:\"<>*]*"
-								 + "\\\\{1})*[^|?/:\\\"<>*]{1,}(\\.txt){1}")) {
+		if (!PathValidator.validateTXT(path1)
+				&& !PathValidator.validateTXT(path2)) {
 			throw new ServiceException();
 		}
 	
 		logger.info("Данные получены");
 	
 		DAOFactory daof = DAOFactory.getInstance();
-		ArrayFileReader afr = daof.getArrayFileReader();
+		FileReader afr = daof.getArrayFileReader();
 		String content1;
 		String content2;
 	
@@ -71,14 +69,22 @@ public class MatrixSubtractServiceImpl implements MatrixOperationService {
 			Matrix matrix1 = new Matrix(preMatrix1.length, preMatrix1[0].length); 
 			Matrix matrix2 = new Matrix(preMatrix2.length, preMatrix2[0].length);
 	
-			matrix1.setMatrix(preMatrix1);
-			matrix2.setMatrix(preMatrix2);
+			for (int i = 0; i < preMatrix1.length; ++i) {
+				for (int j = 0; j < preMatrix1[0].length; ++j) {
+					matrix1.setElement(i, j, preMatrix1[i][j]);
+				}
+			}
+			for (int i = 0; i < preMatrix2.length; ++i) {
+				for (int j = 0; j < preMatrix2[0].length; ++j) {
+					matrix2.setElement(i, j, preMatrix2[i][j]);
+				}
+			}
 	
 			Matrix<Double> result = new Matrix(matrix1.getColumnLength(), 
-											   matrix1.getStringLength());
+											   matrix1.getRowLength());
 	
 			for (int i = 0; i < result.getColumnLength(); ++i) {
-				for (int j = 0; j < result.getStringLength(); ++j) {
+				for (int j = 0; j < result.getRowLength(); ++j) {
 					result.setElement(i, j, matrix1.getElement(i, j) 
 											- matrix2.getElement(i, j));
 				}

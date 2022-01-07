@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 
 import by.ipo.task2.bean.Array;
-import by.ipo.task2.dao.ArrayFileReader;
+import by.ipo.task2.dao.FileReader;
 import by.ipo.task2.dao.factory.DAOFactory;
 import by.ipo.task2.service.SortingService;
 import by.ipo.task2.service.exception.ServiceException;
@@ -29,38 +29,13 @@ public class ShakerSortServiceImpl implements SortingService {
 	*/
 	@Override
 	public Array sort(String path) throws ServiceException {
-		if (path.matches("([A-Za-z]{1}:{1}\\\\{1}){1}([^|?/:\"<>*]*\\\\{1})*")) {
+		if (PathValidator.validateTXT(path)) {
 			logger.info("Данные получены");
 			
-			DAOFactory daof = DAOFactory.getInstance();
-			ArrayFileReader afr = daof.getArrayFileReader();
-			
 			try {
-				String[] data = afr.readFile(path).split(" ");
-				Array<Double> result = new Array<Double>(data.length);
-				result.setParameters(data);
-	
-				int left = 0;
-				int right = result.getLength() - 1;
-				while (left <= right) {
-					for (int i = right; i > left; --i) {
-						if (result.compareElements(i, i - 1) < 0) {
-							result.swapElements(i - 1, i);
-						}
-					}
-					++left;
-					
-					for (int i = left; i < right; ++i) {
-						if (result.compareElements(i, i + 1) > 0) {
-							result.swapElements(i, i + 1);
-						}
-					}
-					--right;
-				}
+				Array<Double> result = ArrayReader.readArray(path);
 				
-				logger.info("Cортровка встряхиванием окончена");
-				
-				return result;
+				return ShakerSort.sort(result);
 			} catch (IOException e) {
 				logger.error("Ошибка сортировки");
 				throw new ServiceException();

@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 
 import by.ipo.task2.bean.Array;
-import by.ipo.task2.dao.ArrayFileReader;
+import by.ipo.task2.dao.FileReader;
 import by.ipo.task2.dao.factory.DAOFactory;
 import by.ipo.task2.service.SortingService;
 import by.ipo.task2.service.exception.ServiceException;
@@ -29,35 +29,13 @@ public class InsertionSortServiceImpl implements SortingService {
 	*/
 	@Override
 	public Array sort(String path) throws ServiceException {
-		if (path.matches("([A-Za-z]{1}:{1}\\\\{1}){1}([^|?/:\"<>*]*\\\\{1})*"
-						+ "[^|?/:\\\"<>*]{1,}(\\.txt){1}")) {
+		if (PathValidator.validateTXT(path)) {
 			logger.info("Данные получены");
 
-			DAOFactory daof = DAOFactory.getInstance();
-			ArrayFileReader afr = daof.getArrayFileReader();
-
 			try {
-				String[] data = afr.readFile(path).split(" ");
-				
-				Array<Double> result = new Array<>(data.length);
-				result.setParameters(data);
+				Array<Double> result = ArrayReader.readArray(path);
 
-				for (int i = 0; i < result.getLength(); i++) {
-					int indexToInsert = i;
-					double min = result.getParameter(i);
-					for (int j = i; j > indexToInsert; j--) {
-						if (result.compareElements(i, j) > 0) {
-							result.swapElements(j, j - 1);
-						} else {
-							break;
-						}
-					}
-					result.setParameter(min, i);
-				}
-
-				logger.info("Сортировка выбором окончена");
-
-				return result;
+				return InsertionSort.sort(result);
 			} catch (IOException e) {
 				logger.error("Ошибка сортировки");
 				throw new ServiceException();

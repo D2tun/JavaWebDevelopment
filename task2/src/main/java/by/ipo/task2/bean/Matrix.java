@@ -20,44 +20,19 @@ public class Matrix<T extends Double> implements Serializable{
 	
 	/**
 	 * This constructor creates matrix.
-	 * @param stringNumber - number of strings
+	 * @param rowNumber - number of rows
 	 * @param columnNumber - number of columns
-	 * @throws IndexOutOfBoundsException if matrix's borders are 
-	 * wrong.
 	 */
-	public Matrix(int stringNumber, int columnNumber) 
-			throws IndexOutOfBoundsException {
-		if ((stringNumber < 1) || (columnNumber < 1)) {
-			logger.error("Ошибка создания матрицы");
-			throw new IndexOutOfBoundsException();
-		} else {
-			logger.info("Матрица создана успешно");
-			this.matrix = (T[][]) new Object[stringNumber][columnNumber];
-		}
-	}
-	
-	/**
-	 * This method copies values from another matrix
-	 * @param matrix
-	 * @throws IndexOutOfBoundsException if matrix's aren't got same 
-	 * sizes.
-	 */
-	public void setMatrix(T[][] matrix) throws IndexOutOfBoundsException {
-		if ((this.matrix.length != matrix.length) 
-				|| (this.matrix[0].length != matrix[0].length)) {
-			logger.error("Ошибка создания матрицы");
-			throw new IndexOutOfBoundsException();
-		} else {
-			logger.info("Матрица создана успешно");
-			this.matrix = matrix;
-		}
+	public Matrix(int rowNumber, int columnNumber) {
+		logger.info("Матрица создана успешно");
+		this.matrix = (T[][]) new Object[rowNumber][columnNumber];
 	}
 	
 	/**
 	 * This method returns matrix's string length.
 	 * @return matrix's string length
 	 */
-	public int getStringLength() {
+	public int getRowLength() {
 		return this.matrix[0].length;
 	}
 	
@@ -68,54 +43,26 @@ public class Matrix<T extends Double> implements Serializable{
 	public int getColumnLength() {
 		return this.matrix.length;
 	}
-
-	public T[][] getMatrix() {
-		return this.matrix;
-	}
 	
 	/**
 	 * This method changes value of element at given address
-	 * @param string - vertical address
+	 * @param row - vertical address
 	 * @param column - horizontal address
 	 * @param value - new value of the element
-	 * @throws IndexOutOfBoundsException
 	 */
-	public void setElement(int string, int column, T value) 
-			throws IndexOutOfBoundsException {
-		if ((string < 0) || (column < 0)) {
-			logger.error("Ошибка установки элемента матрицы матрицы");
-			throw new IndexOutOfBoundsException();
-		} else {
-			logger.info("Элемент установлен");
-			this.matrix[string][column] = value;
-		}
+	public void setElement(int row, int column, T value) {
+		logger.info("Элемент установлен");
+		this.matrix[row][column] = value;
 	}
 
 	/**
 	 * This method return element at the address.
-	 * @param stringIndex - string's number
+	 * @param rowIndex - row's number
 	 * @param columnIndex - column's number
 	 * @return value of element
 	 */
-	public T getElement(int stringIndex, int columnIndex) {
-		return this.matrix[stringIndex][columnIndex];
-	}
-	
-	/**
-	 * This method puts matrix's values into string.
-	 * @return string representation of matrix
-	 */
-	public String formString() {
-		String answer = "";
-		
-		for (int string = 0; string < this.matrix.length; ++string) {
-			for (int column = 0; column < this.matrix[0].length; ++column) {
-				answer += this.matrix[string][column] + " ";
-			}
-			answer += "\n";
-		}
-		
-		return answer;
+	public T getElement(int rowIndex, int columnIndex) {
+		return this.matrix[rowIndex][columnIndex];
 	}
 	
 	@Override

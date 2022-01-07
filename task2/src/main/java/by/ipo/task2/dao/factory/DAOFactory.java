@@ -1,6 +1,6 @@
 package by.ipo.task2.dao.factory;
 
-import by.ipo.task2.dao.ArrayFileReader;
+import by.ipo.task2.dao.FileReader;
 import by.ipo.task2.dao.impl.ArrayFileReaderImpl;
 import by.ipo.task2.dao.impl.CreateArrayTextFile;
 
@@ -12,7 +12,7 @@ public class DAOFactory {
 
 	private static final DAOFactory instance = new DAOFactory();
 	
-	private final ArrayFileReader afr = new ArrayFileReaderImpl();
+	private final FileReader afr = new ArrayFileReaderImpl();
 	private final CreateArrayTextFile catf = new CreateArrayTextFile();
 	
 	/**
@@ -28,7 +28,7 @@ public class DAOFactory {
 	 * class.
 	 * @return <strong>instance</strong> of object.
 	 */
-	public ArrayFileReader getArrayFileReader() {
+	public FileReader getArrayFileReader() {
 		return afr;
 	}
 	

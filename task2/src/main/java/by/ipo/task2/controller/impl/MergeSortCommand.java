@@ -2,8 +2,6 @@ package by.ipo.task2.controller.impl;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Scanner;
-
 import org.apache.logging.log4j.LogManager;
 
 import by.ipo.task2.controller.Command;
@@ -31,13 +29,10 @@ public class MergeSortCommand implements Command{
 	public void execute() {
 		ServiceFactory sf = ServiceFactory.getInstance();
 		SortingService ss = sf.getMergeSortService();
-		Scanner sc = new Scanner(System.in);
-
-		mw.showInfo(rb.getString("pathRequest"));
 
 		try {
 			logger.info("Команда выполняется");
-			mw.showInfo(ss.sort(sc.nextLine()).formatArrayToString());
+			mw.showArray(ss.sort(mw.dataRequest(rb.getString("pathRequest"))));
 		} catch (ServiceException e) {
 			logger.error("Неверные данные");
 			mw.showInfo(rb.getString("wrongData"));

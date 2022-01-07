@@ -33,13 +33,10 @@ public class InsertionSortCommand implements Command {
 	public void execute() {
 		ServiceFactory sf = ServiceFactory.getInstance();
 		SortingService ss = sf.getInsertionSortService();
-		Scanner sc = new Scanner(System.in);
-		
-		mw.showInfo(rb.getString("pathRequest"));
 
 		try {
 			logger.info("Команда выполняется");
-			mw.showInfo(ss.sort(sc.nextLine()).formatArrayToString());
+			mw.showArray(ss.sort(mw.dataRequest(rb.getString("pathRequest"))));
 		} catch (ServiceException e) {
 			logger.error("Неверные данные");
 			mw.showInfo(rb.getString("wrongData"));

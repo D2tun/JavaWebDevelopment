@@ -1,5 +1,10 @@
 package by.ipo.task2.view;
 
+import java.util.Scanner;
+
+import by.ipo.task2.bean.Array;
+import by.ipo.task2.bean.Matrix;
+
 /**
  * This class provides method for providing information to user.
  * @author Pavel Isidovich
@@ -31,5 +36,49 @@ public class MessageViewer {
 	 */
 	public void showInfo(String info) {
 		System.out.println(info);
+	}
+	
+	/**
+	 * This method prints matrix to console
+	 * @param matrix - matrix, that will be printed
+	 */
+	public void showMatrix(Matrix matrix) {
+		String answer = "";
+		
+		for (int row = 0; row < matrix.getRowLength(); ++row) {
+			for (int column = 0; column < matrix.getColumnLength(); ++column) {
+				answer += matrix.getElement(row, column) + " ";
+			}
+			answer += "\n";
+		}
+		
+		System.out.println(answer);
+	}
+	
+	/**
+	 * This method prints array to console
+	 * @param array - array, that will be printed
+	 */
+	public void showArray(Array array) {
+		String answer = "";
+		
+		for (int i = 0; i < array.getLength(); ++i) {
+			answer += String.valueOf(array.getElement(i)) + " ";
+		}
+		
+		System.out.println(answer);
+	}
+	
+	/**
+	 * This method requests information from user.
+	 * @param message - information request
+	 * @return string, entered by user
+	 */
+	public String dataRequest(String message) {
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println(message);
+		
+		return sc.nextLine();
 	}
 }
