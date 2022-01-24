@@ -1,4 +1,4 @@
-package by.ipo.task2.bean;
+package by.ipo.task5.bean;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -16,7 +16,7 @@ public class Matrix<T extends Double> implements Serializable{
 	private static org.apache.logging.log4j
 					.Logger logger = LogManager.getFormatterLogger();
 	
-	private T[][] matrix;
+	private Object[][] matrix;
 	
 	/**
 	 * This constructor creates matrix.
@@ -25,7 +25,7 @@ public class Matrix<T extends Double> implements Serializable{
 	 */
 	public Matrix(int rowNumber, int columnNumber) {
 		logger.info("Матрица создана успешно");
-		this.matrix = (T[][]) new Object[rowNumber][columnNumber];
+		this.matrix = new Object[rowNumber][columnNumber];
 	}
 	
 	/**
@@ -62,7 +62,7 @@ public class Matrix<T extends Double> implements Serializable{
 	 * @return value of element
 	 */
 	public T getElement(int rowIndex, int columnIndex) {
-		return this.matrix[rowIndex][columnIndex];
+		return (T) this.matrix[rowIndex][columnIndex];
 	}
 	
 	@Override
