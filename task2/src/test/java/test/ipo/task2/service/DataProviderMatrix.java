@@ -19,9 +19,18 @@ public class DataProviderMatrix {
 		Matrix<Double> arrSum = new Matrix<Double>(2, 2);
 		Matrix<Double> arrSub = new Matrix<Double>(2, 2);
 		Matrix<Double> arrProd = new Matrix<Double>(2, 2);
-		arrSum.setMatrix(new Double[][] {{2.0, 2.0}, {2.0, 2.0}});
-		arrSub.setMatrix(new Double[][] {{0.0, 0.0}, {0.0, 0.0}});
-		arrProd.setMatrix(new Double[][] {{2.0, 2.0}, {2.0, 2.0}});
+		arrSum.setElement(0, 0, 2.0);
+		arrSum.setElement(0, 1, 2.0);
+		arrSum.setElement(1, 0, 2.0);
+		arrSum.setElement(1, 1, 2.0);
+		arrSub.setElement(0, 0, 0.0);
+		arrSub.setElement(0, 1, 0.0);
+		arrSub.setElement(1, 0, 0.0);
+		arrSub.setElement(1, 1, 0.0);
+		arrProd.setElement(0, 0, 2.0);
+		arrProd.setElement(0, 1, 2.0);
+		arrProd.setElement(1, 0, 2.0);
+		arrProd.setElement(1, 1, 2.0);
 		
 		return new Object[][] {
 			{ path1, path2, arrSum, arrSub, arrProd },
