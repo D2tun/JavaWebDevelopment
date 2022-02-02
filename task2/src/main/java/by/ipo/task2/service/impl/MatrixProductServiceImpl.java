@@ -84,20 +84,17 @@ public class MatrixProductServiceImpl implements MatrixOperationService {
 				}
 			}
 			
-			Matrix<Double> result = null;
-			if((matrix1.getColumnLength() > matrix2.getColumnLength()) 
-					&& (matrix1.getRowLength() < matrix2.getRowLength())) {
-				result = new Matrix(matrix1.getColumnLength(), 
-						   			matrix2.getRowLength());
-			} else {
-				result = new Matrix(matrix2.getColumnLength(), 
-			   						matrix1.getRowLength());
-			}
+			Matrix<Double> result = new Matrix(matrix1.getColumnLength(), 
+				 							matrix2.getRowLength());
+			double resultElement = 0;
 			
-			for (int i = 0; i < result.getColumnLength(); ++i) {
-				for (int j = 0; j < result.getRowLength(); ++j) {
-					result.setElement(i, j, matrix1.getElement(i, j) 
-									  * matrix2.getElement(j, i));
+			for (int i = 0; i < matrix1.getColumnLength(); ++i) {
+				for (int j = 0; j < matrix2.getRowLength(); ++j) {
+					for (int k = 0; k < matrix1.getColumnLength(); ++k) {
+					resultElement += result.getElement(i, k) 
+					     		* result.getElement(k, i);
+					}
+				result.setElement(i, j, resultElement);
 				}
 			}
 			
