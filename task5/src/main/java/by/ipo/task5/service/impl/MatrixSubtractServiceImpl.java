@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Phaser;
+import java.util.concurrent.Semaphore;
 
 import org.apache.logging.log4j.LogManager;
 
@@ -53,8 +54,11 @@ public class MatrixSubtractServiceImpl implements MatrixOperationService {
 		Matrix<Double> result = new Matrix(matrix1.getColumnLength(), 
 										   matrix1.getRowLength());
 		List<Thread> calcThreads = new ArrayList<>();
-		Phaser phaser = new Phaser(result.getColumnLength() * result.getRowLength());
+		Phaser phaser = new Phaser(result.getColumnLength() 
+								   * result.getRowLength());
 		phaser.register();
+		Semaphore semaphore = new Semaphore(Runtime.getRuntime()
+												.availableProcessors() * 2);
 		
 		for (int i = 0; i < result.getColumnLength(); ++i) {
 			for (int j = 0; j < result.getRowLength(); ++j) {
@@ -62,7 +66,7 @@ public class MatrixSubtractServiceImpl implements MatrixOperationService {
 											matrix1.getElement(i, j), 
 											matrix2.getElement(i, j), 
 											result, new int[] {i, j},
-											phaser)
+											phaser, semaphore)
 										);
 				
 				calc.start();

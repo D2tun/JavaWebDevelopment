@@ -1,5 +1,7 @@
 package by.ipo.task5.service.impl;
 
+import java.util.concurrent.Semaphore;
+
 import by.ipo.task5.bean.Matrix;
 
 /**
@@ -15,6 +17,7 @@ public class MatrixProductionElementCalc implements Runnable {
 	private Matrix matrix2;
 	private Matrix result;
 	private int[] position;
+	private Semaphore sem;
 	
 	/**
 	 * This constructor creates new thread object and sets given
@@ -26,15 +29,23 @@ public class MatrixProductionElementCalc implements Runnable {
 	 * element[0] is column index, element[1] is row index
 	 */
 	public MatrixProductionElementCalc(Matrix matrix1, Matrix matrix2, 
-									   Matrix resultMatrix, int[] position) {
+									   Matrix resultMatrix, int[] position,
+									   Semaphore sem) {
 		this.matrix1 = matrix1;
 		this.matrix2 = matrix2;
 		this.result = resultMatrix;
 		this.position = position;
+		this.sem = sem;
 	}
 	
 	@Override
 	public void run()  {
+		try {
+			this.sem.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		double resultElement = 0;
 		
@@ -45,5 +56,6 @@ public class MatrixProductionElementCalc implements Runnable {
 		
 		this.result.setElement(this.position[0], this.position[1], 
 							   resultElement);
+		this.sem.release();
 	}
 }

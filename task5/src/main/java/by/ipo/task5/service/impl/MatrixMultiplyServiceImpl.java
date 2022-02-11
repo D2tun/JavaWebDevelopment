@@ -3,7 +3,9 @@ package by.ipo.task5.service.impl;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Semaphore;
 
 import org.apache.logging.log4j.LogManager;
 
@@ -40,6 +42,7 @@ public class MatrixMultiplyServiceImpl implements MatrixOperationService {
 		
 		Matrix<Double> matrix = MatrixReader.readMatrix(path1);
 		double multiplier;
+		
 		try {
 			multiplier = Double.parseDouble(Files.readString(Paths.get(path2)));
 		} catch (NumberFormatException | IOException e) {
@@ -51,11 +54,14 @@ public class MatrixMultiplyServiceImpl implements MatrixOperationService {
 		
 		CountDownLatch cl = new CountDownLatch(matrix.getColumnLength() 
 											   * matrix.getRowLength());
-		
+		Semaphore semaphore = new Semaphore(Runtime.getRuntime()
+												.availableProcessors() * 2);
+
 		for (int i = 0; i < matrix.getColumnLength(); ++i) {
-			for (int j = 0; j < matrix.getRowLength(); ++j) {
+			for (int j = 0; j < matrix.getRowLength(); ++j) {			
 				Thread calc = new Thread(new MatrixMultiplyElementCalc(matrix, 
-										 multiplier, new int[] {i, j}, cl));
+										 multiplier, new int[] {i, j}, cl,
+										 semaphore));
 				calc.start();
 			}
 		}
@@ -70,5 +76,4 @@ public class MatrixMultiplyServiceImpl implements MatrixOperationService {
 
 		return matrix;
 	}
-
 }

@@ -1,6 +1,7 @@
 package by.ipo.task5.service.impl;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Semaphore;
 
 import by.ipo.task5.bean.Matrix;
 
@@ -17,6 +18,7 @@ public class MatrixMultiplyElementCalc implements Runnable {
 	private int[] position;
 	private Matrix matrix;
 	private CountDownLatch cl;
+	private Semaphore sem;
 	
 	/**
 	 * This constructor creates new thread object and sets given
@@ -28,18 +30,27 @@ public class MatrixMultiplyElementCalc implements Runnable {
 	 * element[0] is column index, element[1] is row index
 	 */
 	public MatrixMultiplyElementCalc(Matrix matrix, double multiplier, 
-									 int[] position, CountDownLatch cl) {
+									 int[] position, CountDownLatch cl,
+									 Semaphore sem) {
 		this.matrix = matrix;
 		this.multiplier = multiplier;
 		this.position = position;
 		this.cl = cl;
+		this.sem = sem;
 	}
 	
 	@Override
 	public void run() {
+
+		try {
+			this.sem.acquire();
+		} catch (InterruptedException e) { 
+		}
 		this.matrix.setElement(this.position[0], this.position[1], 
 							   this.matrix.getElement(this.position[0], 
 							   this.position[1]) * this.multiplier);
-		cl.countDown();
+
+		this.cl.countDown();
+		this.sem.release();
 	}
 }

@@ -12,6 +12,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.Future;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -56,13 +57,16 @@ public class MatrixSumServiceImpl implements MatrixOperationService {
 		Matrix<Double> result = new Matrix<>(matrix1.getColumnLength(), 
 											 matrix1.getRowLength());	
 		ExecutorService es = Executors.newCachedThreadPool();
+		Semaphore semaphore = new Semaphore(Runtime.getRuntime()
+												.availableProcessors() * 2);
 		
 		for (int i = 0; i < result.getColumnLength(); ++i) {
 			for (int j = 0; j < result.getRowLength(); ++j) {
 				Thread calc = new Thread(new MatrixSumElementCalc(
 											matrix1.getElement(i, j), 
 											matrix2.getElement(i, j),
-											result, new int[] {i, j})
+											result, new int[] {i, j},
+											semaphore)
 										);
 				es.submit(calc);
 			}

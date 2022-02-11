@@ -2,6 +2,8 @@ package by.ipo.task5.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
+
 import org.apache.logging.log4j.LogManager;
 
 import by.ipo.task5.bean.Matrix;
@@ -49,31 +51,31 @@ public class MatrixProductServiceImpl implements MatrixOperationService {
 
 		 Matrix<Double> result = new Matrix(matrix1.getColumnLength(), 
 				 							matrix2.getRowLength());
+		 Semaphore semaphore = new Semaphore(Runtime.getRuntime()
+												.availableProcessors() * 2);
+		 List<Thread> calcThreads = new ArrayList<>();
 		
-
-		List<Thread> calcThreads = new ArrayList<>();
+		 for (int i = 0; i < result.getColumnLength(); ++i) {
+			 for (int j = 0; j < result.getRowLength(); ++j) {
+				 Thread calc = new Thread(new MatrixProductionElementCalc(
+				 							matrix1, matrix2, result, 
+											new int[] {i, j}, semaphore)
+							  			 );
+				 calc.start();
+				 calcThreads.add(calc);
+			 }
+		 }
 		
-		for (int i = 0; i < result.getColumnLength(); ++i) {
-			for (int j = 0; j < result.getRowLength(); ++j) {
-				Thread calc = new Thread(new MatrixProductionElementCalc(
-											matrix1, matrix2, result, 
-											new int[] {i, j})
-							  			);
-				calc.start();
-				calcThreads.add(calc);
-			}
-		}
-		
-		for (int i = 0; i < calcThreads.size(); ++i) {
-			try {
-				calcThreads.get(i).join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+		 for (int i = 0; i < calcThreads.size(); ++i) {
+			 try {
+			 	 calcThreads.get(i).join();
+			 } catch (InterruptedException e) {
+				 e.printStackTrace();
+			 }
+		 }
 				
-		logger.trace("Ответ отправлен");
+		 logger.trace("Ответ отправлен");
 		
-		return result;
+		 return result;
 	}
 }

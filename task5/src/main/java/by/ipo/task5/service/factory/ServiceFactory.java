@@ -8,7 +8,7 @@ import by.ipo.task5.service.impl.ChoiceSortServiceImpl;
 import by.ipo.task5.service.impl.FileCreatingServiceImpl;
 import by.ipo.task5.service.impl.InsertionSortBinaryImpl;
 import by.ipo.task5.service.impl.InsertionSortServiceImpl;
-import by.ipo.task5.service.impl.MatixTranspositionServiceImpl;
+import by.ipo.task5.service.impl.MatrixTranspositionServiceImpl;
 import by.ipo.task5.service.impl.MatrixMultiplyServiceImpl;
 import by.ipo.task5.service.impl.MatrixProductServiceImpl;
 import by.ipo.task5.service.impl.MatrixSubtractServiceImpl;
@@ -37,7 +37,7 @@ public class ServiceFactory {
 	private final MatrixOperationService mossb = new MatrixSubtractServiceImpl();
 	private final MatrixOperationService mosp = new MatrixProductServiceImpl();
 	private final MatrixOperationService most 
-										= new MatixTranspositionServiceImpl();
+										= new MatrixTranspositionServiceImpl();
 	private final MatrixOperationService mosm = new MatrixMultiplyServiceImpl();
 	
 	/**
