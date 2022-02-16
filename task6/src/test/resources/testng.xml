@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name = "Task6tests">
+ <test name = "Task6tests">
+  <classes>
+   <class name = "test.ipo.task6.servise.SortParagraphsServiceTest"/>
+  </classes>
+ </test>
+</suite>
