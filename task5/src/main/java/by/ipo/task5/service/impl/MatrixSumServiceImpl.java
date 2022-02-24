@@ -1,19 +1,14 @@
 package by.ipo.task5.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 
 import by.ipo.task5.bean.Matrix;
 import by.ipo.task5.service.MatrixOperationService;
 import by.ipo.task5.service.exception.ServiceException;
+
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.Future;
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -56,28 +51,33 @@ public class MatrixSumServiceImpl implements MatrixOperationService {
 		
 		Matrix<Double> result = new Matrix<>(matrix1.getColumnLength(), 
 											 matrix1.getRowLength());	
-		ExecutorService es = Executors.newCachedThreadPool();
-		Semaphore semaphore = new Semaphore(Runtime.getRuntime()
-												.availableProcessors() * 2);
+
+		CopyOnWriteArrayList<Integer[]> indexList 
+										= new CopyOnWriteArrayList<>();
 		
 		for (int i = 0; i < result.getColumnLength(); ++i) {
 			for (int j = 0; j < result.getRowLength(); ++j) {
-				Thread calc = new Thread(new MatrixSumElementCalc(
-											matrix1.getElement(i, j), 
-											matrix2.getElement(i, j),
-											result, new int[] {i, j},
-											semaphore)
-										);
-				es.submit(calc);
+				indexList.add(new Integer[] {i, j});
 			}
 		}
-			
+		
+		while (!indexList.isEmpty()) {
+			ExecutorService es = Executors.newCachedThreadPool();
+			for (int i = 0; i < Runtime.getRuntime()
+											.availableProcessors() * 2; ++i) {
+				Thread calc = new Thread(new MatrixSumElementCalc(matrix1, 
+																  matrix2,
+																  indexList, 
+																  result));
+				es.submit(calc);
+			}
 			es.shutdown();
 			try {
 				es.awaitTermination(40, TimeUnit.MILLISECONDS);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+		}	
 			
 		logger.trace("Ответ отправлен");
 		

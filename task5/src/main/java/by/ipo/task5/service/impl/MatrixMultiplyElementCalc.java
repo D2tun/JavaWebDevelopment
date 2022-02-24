@@ -1,8 +1,7 @@
 package by.ipo.task5.service.impl;
 
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Semaphore;
-
 import by.ipo.task5.bean.Matrix;
 
 /**
@@ -15,10 +14,9 @@ public class MatrixMultiplyElementCalc implements Runnable {
 
 	/**Data Fields*/
 	private double multiplier;
-	private int[] position;
 	private Matrix matrix;
 	private CountDownLatch cl;
-	private Semaphore sem;
+	private CopyOnWriteArrayList<Integer[]> position;
 	
 	/**
 	 * This constructor creates new thread object and sets given
@@ -30,27 +28,24 @@ public class MatrixMultiplyElementCalc implements Runnable {
 	 * element[0] is column index, element[1] is row index
 	 */
 	public MatrixMultiplyElementCalc(Matrix matrix, double multiplier, 
-									 int[] position, CountDownLatch cl,
-									 Semaphore sem) {
+									 CopyOnWriteArrayList<Integer[]> list, 
+									 CountDownLatch cl) {
 		this.matrix = matrix;
 		this.multiplier = multiplier;
-		this.position = position;
+		this.position = list;
 		this.cl = cl;
-		this.sem = sem;
 	}
 	
 	@Override
 	public void run() {
-
-		try {
-			this.sem.acquire();
-		} catch (InterruptedException e) { 
+		Integer[] pos = this.position.get(0);
+		this.position.remove(pos);
+		this.matrix.setElement(pos[0], pos[1], 
+							   this.matrix.getElement(pos[0], 
+							   pos[1]) * this.multiplier);
+		if (Thread.interrupted()) {
+			this.position.add(pos);
 		}
-		this.matrix.setElement(this.position[0], this.position[1], 
-							   this.matrix.getElement(this.position[0], 
-							   this.position[1]) * this.multiplier);
-
 		this.cl.countDown();
-		this.sem.release();
 	}
 }

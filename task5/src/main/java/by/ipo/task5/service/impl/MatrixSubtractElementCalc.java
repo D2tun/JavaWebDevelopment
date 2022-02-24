@@ -1,8 +1,7 @@
 package by.ipo.task5.service.impl;
 
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Phaser;
-import java.util.concurrent.Semaphore;
-
 import by.ipo.task5.bean.Matrix;
 
 /**
@@ -17,9 +16,8 @@ public class MatrixSubtractElementCalc implements Runnable {
 	private double element1;
 	private double element2;
 	private Matrix result;
-	private int[] position;
+	private CopyOnWriteArrayList<Integer[]> position;
 	private Phaser phaser;
-	private Semaphore sem;
 	
 	/**
 	 * This constructor creates new thread object and sets given
@@ -30,29 +28,27 @@ public class MatrixSubtractElementCalc implements Runnable {
 	 * @param position - position in resulting matrix: array, where
 	 * element[0] is column index, element[1] is row index
 	 */
-	public MatrixSubtractElementCalc(double element1, double element2, 
-									 Matrix resultMatrix, int[] position,
-									 Phaser phaser, Semaphore sem) {
-		this.element1 = element1;
-		this.element2 = element2;
+	public MatrixSubtractElementCalc(Matrix matrix1, Matrix matrix2, 
+									 Matrix resultMatrix, 
+									 CopyOnWriteArrayList<Integer[]> list,
+									 Phaser phaser) {
+		this.element1 = matrix1.getElement(list.get(0)[0], list.get(0)[1]);
+		this.element2 = matrix2.getElement(list.get(0)[0], list.get(0)[1]);
 		this.result = resultMatrix;
-		this.position = position;
+		this.position = list;
 		this.phaser = phaser;
-		this.phaser.register();
-		this.sem = sem;
 	}
 	
 	@Override
 	public void run()  {
-		try {
-			this.sem.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		this.result.setElement(this.position[0], this.position[1], 
+		this.phaser.register();
+		Integer[] pos = this.position.get(0);
+		this.position.remove(pos);
+		this.result.setElement(pos[0], pos[1], 
 							   this.element1 - this.element2);
-		this.phaser.arriveAndAwaitAdvance();
+		if (Thread.interrupted()) {
+			this.position.add(pos);
+		}
 		this.phaser.arriveAndDeregister();
-		this.sem.release();
 	}
 }

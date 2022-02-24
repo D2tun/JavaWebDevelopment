@@ -5,8 +5,6 @@ import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 
 import by.ipo.task5.bean.Array;
-import by.ipo.task5.dao.FileReader;
-import by.ipo.task5.dao.factory.DAOFactory;
 import by.ipo.task5.service.SortingService;
 import by.ipo.task5.service.exception.ServiceException;
 

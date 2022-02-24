@@ -1,6 +1,7 @@
 package by.ipo.task5.service.impl;
 
 import java.io.IOException;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.logging.log4j.LogManager;
 
@@ -22,11 +23,14 @@ public class MatrixReader {
 	
 	public static Matrix readMatrix(String path) throws ServiceException {
 		
+		ReentrantLock locker = new ReentrantLock();
 		DAOFactory daof = DAOFactory.getInstance();
 		FileReader afr = daof.getArrayFileReader();
 		
 		try {
+			locker.lock();
 			String content = afr.readFile(path);
+			locker.unlock();
 			String[] strings = content.split("%");
 			Double[][] preMatrix = new Double[strings.length]
 											  [strings[0].split(" ").length];

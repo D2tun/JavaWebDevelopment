@@ -1,7 +1,6 @@
 package by.ipo.task5.service.impl;
 
-import java.util.concurrent.Semaphore;
-
+import java.util.concurrent.CopyOnWriteArrayList;
 import by.ipo.task5.bean.Matrix;
 
 /**
@@ -16,8 +15,7 @@ public class MatrixProductionElementCalc implements Runnable {
 	private Matrix matrix1;
 	private Matrix matrix2;
 	private Matrix result;
-	private int[] position;
-	private Semaphore sem;
+	private CopyOnWriteArrayList<Integer[]> position;
 	
 	/**
 	 * This constructor creates new thread object and sets given
@@ -29,33 +27,30 @@ public class MatrixProductionElementCalc implements Runnable {
 	 * element[0] is column index, element[1] is row index
 	 */
 	public MatrixProductionElementCalc(Matrix matrix1, Matrix matrix2, 
-									   Matrix resultMatrix, int[] position,
-									   Semaphore sem) {
+									   Matrix resultMatrix,  
+									   CopyOnWriteArrayList<Integer[]> list) {
 		this.matrix1 = matrix1;
 		this.matrix2 = matrix2;
 		this.result = resultMatrix;
-		this.position = position;
-		this.sem = sem;
+		this.position = list;
 	}
 	
 	@Override
 	public void run()  {
-		try {
-			this.sem.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Integer[] pos = this.position.get(0);
+		this.position.remove(pos);
 		
 		double resultElement = 0;
 		
 		for (int i = 0; i < this.matrix1.getRowLength(); ++i) {
-			resultElement += this.matrix1.getElement (position[0], i) 
-							* this.matrix2.getElement(i, position[1]);		
+			resultElement += this.matrix1.getElement(pos[0], i) 
+							* this.matrix2.getElement(i, pos[1]);		
 		}
 		
-		this.result.setElement(this.position[0], this.position[1], 
-							   resultElement);
-		this.sem.release();
+		this.result.setElement(pos[0], pos[1], resultElement);
+		
+		if (Thread.interrupted()) {
+			this.position.add(pos);
+		}
 	}
 }

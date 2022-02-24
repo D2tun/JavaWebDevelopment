@@ -5,8 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Semaphore;
-
 import org.apache.logging.log4j.LogManager;
 
 import by.ipo.task5.bean.Matrix;
@@ -52,24 +50,32 @@ public class MatrixMultiplyServiceImpl implements MatrixOperationService {
 		
 		logger.trace("Данные получены");
 		
-		CountDownLatch cl = new CountDownLatch(matrix.getColumnLength() 
-											   * matrix.getRowLength());
-		Semaphore semaphore = new Semaphore(Runtime.getRuntime()
-												.availableProcessors() * 2);
+		CopyOnWriteArrayList<Integer[]> indexList 
+											= new CopyOnWriteArrayList<>();
 
 		for (int i = 0; i < matrix.getColumnLength(); ++i) {
-			for (int j = 0; j < matrix.getRowLength(); ++j) {			
-				Thread calc = new Thread(new MatrixMultiplyElementCalc(matrix, 
-										 multiplier, new int[] {i, j}, cl,
-										 semaphore));
-				calc.start();
+			for (int j = 0; j < matrix.getRowLength(); ++j) {
+				indexList.add(new Integer[] {i, j});
 			}
 		}
-		
-		try {
-			cl.await();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+
+		while (!indexList.isEmpty()) {
+			CountDownLatch cl = new CountDownLatch(Runtime
+													.getRuntime()
+													.availableProcessors() 
+												   * 2);
+			for (int j = 0; j < Runtime.getRuntime().availableProcessors() 
+								* 2; ++j) {			
+				Thread calc = new Thread(new MatrixMultiplyElementCalc(matrix, 
+										 multiplier, indexList, cl));
+				calc.start();
+			}
+			
+			try {
+				cl.await();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		logger.trace("Ответ отправлен");

@@ -1,9 +1,8 @@
 package by.ipo.task5.service.impl;
 
 import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.Semaphore;
-
 import org.apache.logging.log4j.LogManager;
 
 import by.ipo.task5.bean.Matrix;
@@ -44,25 +43,35 @@ public class MatrixTranspositionServiceImpl implements MatrixOperationService {
 		
 		Matrix<Double> result = new Matrix<>(matrix.getRowLength(), 
 											 matrix.getColumnLength());
-		CyclicBarrier barrier = new CyclicBarrier(result.getRowLength() + 1);
-		Semaphore semaphore = new Semaphore(Runtime.getRuntime()
-												.availableProcessors() * 2);
+		CopyOnWriteArrayList<Integer[]> indexList 
+											= new CopyOnWriteArrayList<>();
+
+		for (int i = 0; i < result.getColumnLength(); ++i) {
+			indexList.add(new Integer[] {i});
+		}
 		
-		for (int i = 0; i < matrix.getColumnLength(); ++i) {
-			Thread transposeRow 
+		while (!indexList.isEmpty()) {
+			CyclicBarrier barrier = new CyclicBarrier(Runtime
+														.getRuntime()
+														.availableProcessors() 
+													  * 2 + 1);
+			for (int i = 0; i < Runtime.getRuntime().availableProcessors() 
+								* 2; ++i) {	
+				Thread transposeRow 
 						= new Thread(new MatrixRowTransposition(matrix, 
 																result, 
-																i, barrier,
-																semaphore));
-			transposeRow.start();
+																barrier,
+																indexList));
+				transposeRow.start();
+			}
+			
+			try {
+				barrier.await();
+			} catch (InterruptedException | BrokenBarrierException e) {
+				e.printStackTrace();
+			}
 		}
 		
-		try {
-			barrier.await();
-		} catch (InterruptedException | BrokenBarrierException e) {
-			e.printStackTrace();
-		}
-
 		logger.trace("Ответ отправлен");
 		
 		return result;

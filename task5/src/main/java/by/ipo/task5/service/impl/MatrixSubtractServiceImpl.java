@@ -1,16 +1,10 @@
 package by.ipo.task5.service.impl;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Phaser;
-import java.util.concurrent.Semaphore;
-
 import org.apache.logging.log4j.LogManager;
 
 import by.ipo.task5.bean.Matrix;
-import by.ipo.task5.dao.FileReader;
-import by.ipo.task5.dao.factory.DAOFactory;
 import by.ipo.task5.service.MatrixOperationService;
 import by.ipo.task5.service.exception.ServiceException;
 
@@ -53,28 +47,32 @@ public class MatrixSubtractServiceImpl implements MatrixOperationService {
 	
 		Matrix<Double> result = new Matrix(matrix1.getColumnLength(), 
 										   matrix1.getRowLength());
-		List<Thread> calcThreads = new ArrayList<>();
-		Phaser phaser = new Phaser(result.getColumnLength() 
-								   * result.getRowLength());
-		phaser.register();
-		Semaphore semaphore = new Semaphore(Runtime.getRuntime()
-												.availableProcessors() * 2);
 		
+		CopyOnWriteArrayList<Integer[]> indexList 
+											= new CopyOnWriteArrayList<>();
+
 		for (int i = 0; i < result.getColumnLength(); ++i) {
 			for (int j = 0; j < result.getRowLength(); ++j) {
-				Thread calc = new Thread(new MatrixSubtractElementCalc(
-											matrix1.getElement(i, j), 
-											matrix2.getElement(i, j), 
-											result, new int[] {i, j},
-											phaser, semaphore)
-										);
-				
-				calc.start();
-				phaser.arriveAndDeregister();
+				indexList.add(new Integer[] {i, j});
 			}
 		}
 		
-		phaser.arriveAndAwaitAdvance();
+		while (!indexList.isEmpty()) {
+			Phaser phaser = new Phaser(Runtime
+										.getRuntime()
+										.availableProcessors() 
+									   * 2);
+			phaser.register();	
+			for (int j = 0; j < Runtime.getRuntime().availableProcessors() 
+								* 2; ++j) {
+				Thread calc = new Thread(new MatrixSubtractElementCalc(
+											matrix1, matrix2, result, 
+											indexList, phaser));
+				
+				calc.start();
+			}
+			phaser.arriveAndAwaitAdvance(); 
+		}
 		
 		logger.trace("Ответ отправлен");
 	
