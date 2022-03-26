@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:target="http://www.training.by/xmlparser/entity/gym"
+	targetNamespace="http://www.training.by/xmlparser/entity/gym"
+	elementFormDefault="qualified">
+
+	<xsd:element name="orders"/>
+
+	<xsd:simpleType name="e-mailPattern">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[A-Za-z0-9_-]+@{1}[A-Za-z0-9_-]+\.{1}[A-Za-z0-9_-]+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="userData">
+		<xsd:sequence>
+			<xsd:element name="user">
+				<xsd:complexType>
+					<xsd:all>
+						<xsd:element name="email" type="target:e-mailPattern"/>
+						<xsd:element name="password" type="xsd:string"/>
+						<xsd:element name="role">
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:enumeration value="client"/>
+									<xsd:enumeration value="coach"/>
+									<xsd:enumeration value="administrator"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="name" type="xsd:string"/>
+						<xsd:element name="surname" type="xsd:string"/>
+						<xsd:element name="registration_date" type="xsd:date"/>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="order">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="id" type="xsd:integer"/>
+				<xsd:element name="creation_date" type="xsd:date"/>
+				<xsd:element name="payment_date" type="xsd:date"/>
+				<xsd:element name="content" type="xsd:string"/>
+				<xsd:element name="client">
+					<xsd:complexType>
+						<xsd:complexContent>
+							<xsd:extension base="target:userData">
+								<xsd:sequence>
+									<xsd:element name="corporation">
+										<xsd:complexType>
+											<xsd:all>
+												<xsd:element name="name" type="xsd:string"/>
+												<xsd:element name="corporation_info" type="xsd:string"/>
+											</xsd:all>
+										</xsd:complexType>
+									</xsd:element>
+									<xsd:element name="status">
+										<xsd:simpleType>
+											<xsd:restriction base="xsd:string">
+												<xsd:enumeration value="new"/>
+												<xsd:enumeration value="regular"/>
+											</xsd:restriction>
+										</xsd:simpleType>
+									</xsd:element>
+								</xsd:sequence>
+							</xsd:extension>
+						</xsd:complexContent>
+					</xsd:complexType>				
+				</xsd:element>
+				<xsd:element name="coach">
+					<xsd:complexType>
+						<xsd:complexContent>
+							<xsd:extension base="target:userData">
+								<xsd:sequence>
+									<xsd:element name="coach_info" type="xsd:string"/>				
+								</xsd:sequence>
+							</xsd:extension>
+						</xsd:complexContent>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="subscription">
+					<xsd:complexType>
+						<xsd:all>
+							<xsd:element name="trainings_quantity" type="xsd:integer"/>
+							<xsd:element name="payment_date" type="xsd:date"/>
+							<xsd:element name="expire_date" type="xsd:date"/>
+						</xsd:all>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="appointment" minOccurs="0" maxOccurs="unbounded">
+					<xsd:complexType>
+						<xsd:all>
+							<xsd:element name="content" type="xsd:string"/>
+							<xsd:element name="comment" type="xsd:string"/>
+							<xsd:element name="rating">
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:integer">
+										<xsd:minInclusive value="1"/>
+										<xsd:maxInclusive value="5"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<xsd:element name="creation_date" type="xsd:date"/>
+							<xsd:element name="status">
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:enumeration value="created"/>
+										<xsd:enumeration value="rejected"/>
+										<xsd:enumeration value="completed"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+						</xsd:all>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+</xsd:schema>	
